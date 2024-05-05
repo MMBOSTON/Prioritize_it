@@ -1,9 +1,9 @@
 import streamlit as st
 from src.prioritize_it import PrioritizeIt
 from src.instructions import get_instructions
-from src.data_manager import reset_tasks
+##from src.data_manager import reset_tasks
 
-def display_sidebar(prioritize, session_state):
+def display_sidebar(prioritize):
     st.sidebar.title('Task Prioritizer')
     st.sidebar.markdown(get_instructions())
 
@@ -14,12 +14,12 @@ def display_sidebar(prioritize, session_state):
     with col1:
         if st.button('Generate Report'):
             report = prioritize.generate_report()
-            session_state['report'] = report # Corrected access
+            st.session_state['report'] = report
 
     # Place the "Visualize Tasks" button in the second column
     with col2:
         if st.button('Visualize Tasks'):
-            session_state['visualize'] = True # Corrected access
+            st.session_state['visualize'] = True
 
 def handle_form(prioritize):
     description = st.text_area('Description', height=200)
@@ -35,8 +35,11 @@ def handle_form(prioritize):
     
     with col4:
         reset_tasks_clicked = st.button('Reset Tasks')
+
         if reset_tasks_clicked:
-            reset_tasks()
+            prioritize.reset_tasks()
+            st.session_state['report'] = None
+            st.session_state['visualize'] = False
             st.rerun()
     
     return add_task_clicked, reset_tasks_clicked

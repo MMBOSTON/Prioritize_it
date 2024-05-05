@@ -63,5 +63,6 @@ class TestTask(unittest.TestCase):
     def tearDown(self):
         logging.info(f"Tear down task with description: {self.task.description}, value: {self.task.value}, effort: {self.task.effort}")
 
+
 if __name__ == '__main__':
     unittest.main()

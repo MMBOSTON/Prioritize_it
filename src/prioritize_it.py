@@ -55,3 +55,6 @@ class PrioritizeIt:
             for task in tasks:
                 task_strings.append(f"Task: {task.description}, Value: {task.value}, Effort: {task.effort}, Ratio: {task.ratio}")
         return task_strings
+
+    def reset_tasks(self):
+        self.data_manager.reset_tasks()

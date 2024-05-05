@@ -17,7 +17,6 @@ class DataManager:
         except FileNotFoundError:
             return []
 
-def reset_tasks():
-    tasks = []
-    with open('data/tasks.json', 'w') as f:
-        json.dump(tasks, f)
+    def reset_tasks(self):
+        with open(self.filename, 'w') as f:
+            f.write(json.dumps([]))  # overwrite the file with an empty list
