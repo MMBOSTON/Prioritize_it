@@ -46,3 +46,12 @@ class PrioritizeIt:
         pareto_chart = self.visualizer.plot_pareto(tasks)
         burndown_chart = self.visualizer.plot_burndown(tasks)
         return pareto_chart, burndown_chart
+
+    def get_task_string(self):
+        tasks = self.view_tasks()
+        task_strings = []
+        if tasks:
+            tasks.sort(key=lambda task: task.ratio, reverse=True)
+            for task in tasks:
+                task_strings.append(f"Task: {task.description}, Value: {task.value}, Effort: {task.effort}, Ratio: {task.ratio}")
+        return task_strings
