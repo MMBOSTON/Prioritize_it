@@ -35,6 +35,7 @@ if remove_task_clicked:
 # If reset_tasks_clicked is True, reset tasks
 if reset_tasks_clicked:
     prioritize.reset_tasks()
+    st.markdown("<h2 style='font-size: 20px;'>Tasks have been reset. Please refresh the page to see the changes.</h2>", unsafe_allow_html=True)
 
 # Display Report if generated
 if st.session_state['Report']:

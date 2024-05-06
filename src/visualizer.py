@@ -1,3 +1,4 @@
+import streamlit as st
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -26,3 +27,8 @@ class Visualizer:
         ax.set_ylabel('Total Value Delivered')
         ax.set_title('Value Burndown Chart')
         return fig
+    
+    def reset_visualization(self):
+        # Clear any chart data stored in the session state
+        if 'chart_data' in st.session_state:
+            st.session_state['chart_data'] = None

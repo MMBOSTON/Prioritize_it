@@ -1,3 +1,4 @@
+import streamlit as st
 from src.data_manager import DataManager
 from src.visualizer import Visualizer
 from src.task import Task
@@ -54,42 +55,6 @@ class PrioritizeIt:
     def view_tasks(self):
         return self.data_manager.load_tasks()
 
-    def generate_Report(self):
-        tasks = self.data_manager.load_tasks()
-        tasks.sort(key=lambda task: task.ratio, reverse=True)
-
-        # Start building the Report
-        Report = "Detailed Task Report:\n\n"
-        Report += "Task | Value | Effort | Ratio | Priority\n"
-        Report += "-----|-------|--------|-------|---------\n"
-
-        for i, task in enumerate(tasks, start=1):
-            # Example categorization logic
-            if i <= len(tasks) // 4:
-                priority = "Prio1"
-            elif i <= len(tasks) // 2:
-                priority = "Prio2"
-            elif i <= 3 * len(tasks) // 4:
-                priority = "Prio3"
-            else:
-                priority = "Prio4"
-
-            Report += f"{task.description} | {task.value} | {task.effort} | {task.ratio:.2f} | {priority}\n"
-
-        # Ensure the "Report" folder exists
-        Report_folder = "Report"
-        if not os.path.exists(Report_folder):
-            os.makedirs(Report_folder)
-
-        # Generate a unique filename for the Report
-        Report_filename = f"{Report_folder}/Report_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.txt"
-
-        # Write the Report to a file
-        with open(Report_filename, 'w') as f:
-            f.write(Report)
-
-        return Report
-
     def visualize_tasks(self, tasks):
         pareto_chart = self.visualizer.plot_pareto(tasks)
         burndown_chart = self.visualizer.plot_burndown(tasks)
@@ -105,7 +70,21 @@ class PrioritizeIt:
         return task_strings
 
     def reset_tasks(self):
+        # Clear tasks from the data manager
         self.data_manager.reset_tasks()
+        
+        # Reset visualization state
+        self.visualizer.reset_visualization()
+        
+        # Clear Streamlit session state related to tasks and visualizations
+        if 'pareto_chart' in st.session_state:
+            st.session_state['pareto_chart'] = None
+        if 'burndown_chart' in st.session_state:
+            st.session_state['burndown_chart'] = None
+        if 'Report' in st.session_state:
+            st.session_state['Report'] = None
+        if 'visualize' in st.session_state:
+            st.session_state['visualize'] = False
 
     def load_tasks_from_file(self, file):
         try:
@@ -148,6 +127,10 @@ class PrioritizeIt:
         avg_value = total_value / total_tasks if total_tasks > 0 else 0
         avg_effort = total_effort / total_tasks if total_tasks > 0 else 0
 
+        # Calculate the ratio for each task
+        for task in tasks:
+            task.calculate_ratio()
+
         # Start building the Report
         Report = f"Total tasks: {total_tasks}\n"
         Report += f"Total value: {total_value}\n"
@@ -158,9 +141,22 @@ class PrioritizeIt:
         # Add task prioritization
         tasks.sort(key=lambda task: task.ratio, reverse=True)
         Report += "Task Prioritization:\n"
-        for task in tasks:
-            Report += f"Task: {task.description}, Value: {task.value}, Effort: {task.effort}, Ratio: {task.ratio}\n"
+        # Inside the generate_Report method, adjust the line that causes the error
+        for i, task in enumerate(tasks, start=1):
+            # Example categorization logic
+            if i <= len(tasks) // 4:
+                priority = "Prio1"
+            elif i <= len(tasks) // 2:
+                priority = "Prio2"
+            elif i <= 3 * len(tasks) // 4:
+                priority = "Prio3"
+            else:
+                priority = "Prio4"
 
+            # Calculate the formatted ratio string
+            formatted_ratio = f"{task.ratio:.2f}" if task.ratio is not None else "0"
+
+            Report += f"{task.description} | {task.value} | {task.effort} | {formatted_ratio} | {priority}\n"
         # Ensure the "Report" folder exists
         Report_folder = "Report"
         if not os.path.exists(Report_folder):
