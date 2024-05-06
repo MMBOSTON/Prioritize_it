@@ -4,6 +4,9 @@ import streamlit as st
 from src.prioritize_it import PrioritizeIt
 from src.instructions import get_instructions
 
+import streamlit as st
+from src.prioritize_it import PrioritizeIt
+
 def display_sidebar(prioritize):
     st.sidebar.title('Task Prioritizer')
     st.sidebar.markdown(get_instructions(), unsafe_allow_html=True)
@@ -12,10 +15,11 @@ def display_sidebar(prioritize):
     st.sidebar.markdown("<hr>", unsafe_allow_html=True)
 
     # Add file uploader
-    uploaded_file = st.sidebar.file_uploader("Choose a file", type=["txt","xlsx", "docx", "csv"])
+    st.sidebar.header('Upload Tasks')
+    uploaded_file = st.sidebar.file_uploader("Upload your tasks file", type=["xlsx", "docx", "csv", "txt"])
     if uploaded_file is not None:
         prioritize.load_tasks_from_file(uploaded_file)
-        return uploaded_file
+        # Optionally, force a UI update here if necessary
 
     # Create three columns in the sidebar for buttons
     col1, col2, col3 = st.sidebar.columns(3)

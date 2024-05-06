@@ -2,18 +2,15 @@
 
 import streamlit as st
 from src.prioritize_it import PrioritizeIt
-from src.sidebar import display_sidebar, handle_form # Ensure handle_form is imported
+from src.sidebar import display_sidebar, handle_form
 
 # Display the title with smaller font
 st.markdown("<h1 style='text-align: center; color: White;font-size: 26px;'>★★ !!PRIORITIZE IT!! ★★</h1>", unsafe_allow_html=True)
 st.markdown("<h2 style='text-align: center; color: White;font-size: 18px;'>A PARETO PILOT APP FOR PROJECT MANAGERS</h2>", unsafe_allow_html=True)
-# Add a short instruction message
-st.markdown("<h1 style='text-align: center; color: White;font-size: 18px;'>Please read the instructions on the left sidebar</h1>", unsafe_allow_html=True)
 
 # Initialize session state
 if 'Report' not in st.session_state:
     st.session_state['Report'] = None
-
 if 'visualize' not in st.session_state:
     st.session_state['visualize'] = False
 
@@ -32,14 +29,12 @@ add_task_clicked, remove_task_clicked, reset_tasks_clicked = handle_form(priorit
 
 # If add_task_clicked is True, add a new task
 if add_task_clicked:
-    # Assuming you have a way to get the value and effort, e.g., from other inputs
     value = st.number_input("Value")
     effort = st.number_input("Effort")
     prioritize.add_task(task_description, value, effort)
 
 # If remove_task_clicked is True, remove a specific task
 if remove_task_clicked:
-    # Assuming you have a way to specify which task to remove, e.g., a task description input
     task_description = st.text_input("Enter the description of the task to remove:")
     prioritize.remove_a_task(task_description)
 

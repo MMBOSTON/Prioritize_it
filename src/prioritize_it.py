@@ -113,6 +113,19 @@ class PrioritizeIt:
                 df = pd.read_csv(file)
                 for index, row in df.iterrows():
                     self.add_task(row['Description'], row['Value'], row['Effort'])
+            elif file.type == "text/plain":
+                # Handle plain text file
+                tasks_data = file.getvalue().decode("utf-8")
+                tasks_lines = tasks_data.splitlines()
+                for line in tasks_lines:
+                    try:
+                        # Attempt to unpack the first three values from the line
+                        description, value, effort = line.split(",", 2) # Adjust the delimiter as needed
+                        self.add_task(description.strip(), int(value), int(effort))
+                    except ValueError:
+                        # Log a warning if the line does not have exactly three values
+                        logging.warning(f"Skipping line due to incorrect format: {line}")
+
         except Exception as e:
             logging.error(f"Error loading tasks from file: {e}")
 
