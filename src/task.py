@@ -1,5 +1,5 @@
 class Task:
-    def __init__(self, description, value, effort, ratio=None):
+    def __init__(self, description, value, effort):
         self.description = description
         self.value = value
         self.effort = effort

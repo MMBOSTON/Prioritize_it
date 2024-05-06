@@ -47,11 +47,11 @@ class TestTask(unittest.TestCase):
         self.assertEqual(len(tasks), 1)
         logging.info("test_view_tasks passed")
 
-    def test_generate_report(self):
+    def test_generate_Report(self):
         self.prioritize.add_task(self.task.description, self.task.value, self.task.effort)
-        report = self.prioritize.generate_report()
-        self.assertIn("Total tasks: 1", report)
-        logging.info("test_generate_report passed")
+        Report = self.prioritize.generate_Report()
+        self.assertIn("Total tasks: 1", Report)
+        logging.info("test_generate_Report passed")
 
     def test_visualize_tasks(self):
         self.prioritize.add_task(self.task.description, self.task.value, self.task.effort)

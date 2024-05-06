@@ -12,5 +12,5 @@ def get_instructions():
     1. Enter a new task in the 'Add a new task' section. Provide a description of the task, its value (how important it is), and its effort (how much work it will take).
     2. Click the 'Add Task' button to add the task to the list.
     3. View your tasks in the 'View tasks' section. Tasks are sorted by their value-to-effort ratio, with the highest ratio tasks at the top.
-    4. Generate a report of your tasks by clicking the 'Generate Report' button.
+    4. Generate a Report of your tasks by clicking the 'Generate Report' button.
     """

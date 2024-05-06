@@ -2,14 +2,16 @@
 
 import streamlit as st
 from src.prioritize_it import PrioritizeIt
-from src.sidebar import display_sidebar, handle_form
+from src.sidebar import display_sidebar, handle_form # Ensure handle_form is imported
 
 # Display the title with smaller font
-st.markdown("<h1 style='text-align: center; color: White;font-size: 26px;'>★ PRIORITIZE IT! ★&nbsp;&nbsp;&nbsp;PARETO PILOT App</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center; color: White;font-size: 26px;'>★★ !!PRIORITIZE IT!! ★★&nbsp;&nbsp;&nbsp;PARETO PILOT APP</h1>", unsafe_allow_html=True)
+# Add a short instruction message
+st.markdown("<h1 style='text-align: center; color: White;font-size: 18px;'>Please read the instructions on the left sidebar</h1>", unsafe_allow_html=True)
 
 # Initialize session state
-if 'report' not in st.session_state:
-    st.session_state['report'] = None
+if 'Report' not in st.session_state:
+    st.session_state['Report'] = None
 
 if 'visualize' not in st.session_state:
     st.session_state['visualize'] = False
@@ -18,26 +20,32 @@ if 'visualize' not in st.session_state:
 prioritize = PrioritizeIt()
 
 # Display sidebar content
-display_sidebar(prioritize)
+uploaded_file = display_sidebar(prioritize) # Capture the returned uploaded_file
 
 # Add task form
 st.markdown("<h2 style='font-size: 20px;'>Add a new task</h2>", unsafe_allow_html=True)
-add_task_clicked, reset_tasks_clicked = handle_form(prioritize)
+add_task_clicked, remove_task_clicked, reset_tasks_clicked = handle_form(prioritize)
+
+# If remove_task_clicked is True, remove a specific task
+if remove_task_clicked:
+    # Assuming you have a way to specify which task to remove, e.g., a task description input
+    task_description = st.text_input("Enter the description of the task to remove:")
+    prioritize.remove_a_task(task_description)
 
 # If reset_tasks_clicked is True, reset tasks
 if reset_tasks_clicked:
     prioritize.reset_tasks()
 
-# Display report if generated
-if st.session_state['report']:
-    st.write(st.session_state['report'])
+# Display Report if generated
+if st.session_state['Report']:
+    st.write(st.session_state['Report'])
 
 # Display tasks
 st.markdown("<h2 style='font-size: 20px;'>View Tasks</h2>", unsafe_allow_html=True)
 st.markdown("---") # Add a horizontal line for better visibility
 task_strings = prioritize.get_task_string()
 for task_string in task_strings:
-    st.write(task_string)
+    st.markdown(task_string, unsafe_allow_html=True)
 
 # Display figures if visualize is True
 if st.session_state['visualize']:
@@ -45,3 +53,7 @@ if st.session_state['visualize']:
     pareto_chart, burndown_chart = prioritize.visualize_tasks(tasks)
     st.pyplot(pareto_chart)
     st.pyplot(burndown_chart)
+
+# Handle the uploaded file if it's not None
+if uploaded_file is not None:
+    prioritize.load_tasks_from_file(uploaded_file)
