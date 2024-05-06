@@ -5,7 +5,8 @@ from src.prioritize_it import PrioritizeIt
 from src.sidebar import display_sidebar, handle_form # Ensure handle_form is imported
 
 # Display the title with smaller font
-st.markdown("<h1 style='text-align: center; color: White;font-size: 26px;'>★★ !!PRIORITIZE IT!! ★★&nbsp;&nbsp;&nbsp;PARETO PILOT APP</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center; color: White;font-size: 26px;'>★★ !!PRIORITIZE IT!! ★★</h1>", unsafe_allow_html=True)
+st.markdown("<h2 style='text-align: center; color: White;font-size: 18px;'>A PARETO PILOT APP FOR PROJECT MANAGERS</h2>", unsafe_allow_html=True)
 # Add a short instruction message
 st.markdown("<h1 style='text-align: center; color: White;font-size: 18px;'>Please read the instructions on the left sidebar</h1>", unsafe_allow_html=True)
 
@@ -22,9 +23,19 @@ prioritize = PrioritizeIt()
 # Display sidebar content
 uploaded_file = display_sidebar(prioritize) # Capture the returned uploaded_file
 
+# Initialize task_description at the beginning of your script
+task_description = ""
+
 # Add task form
 st.markdown("<h2 style='font-size: 20px;'>Add a new task</h2>", unsafe_allow_html=True)
 add_task_clicked, remove_task_clicked, reset_tasks_clicked = handle_form(prioritize)
+
+# If add_task_clicked is True, add a new task
+if add_task_clicked:
+    # Assuming you have a way to get the value and effort, e.g., from other inputs
+    value = st.number_input("Value")
+    effort = st.number_input("Effort")
+    prioritize.add_task(task_description, value, effort)
 
 # If remove_task_clicked is True, remove a specific task
 if remove_task_clicked:

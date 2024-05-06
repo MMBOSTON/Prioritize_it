@@ -100,3 +100,4 @@ def handle_form(prioritize):
         pass
 
     return add_task_button, remove_task_button, reset_tasks_button
+

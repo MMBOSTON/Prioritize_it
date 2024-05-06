@@ -7,7 +7,8 @@ class Visualizer:
         sns.set()
 
     def plot_pareto(self, tasks):
-        tasks.sort(key=lambda x: x.ratio, reverse=True)
+        # Sort tasks by ratio, treating None as the lowest possible value
+        tasks.sort(key=lambda x: x.ratio if x.ratio is not None else -float('inf'), reverse=True)
         values = [task.value for task in tasks]
         labels = [task.description for task in tasks]
         fig, ax = plt.subplots()
@@ -18,7 +19,8 @@ class Visualizer:
         return fig
 
     def plot_burndown(self, tasks):
-        tasks.sort(key=lambda x: x.ratio, reverse=True)
+        # Sort tasks by ratio, treating None as the lowest possible value
+        tasks.sort(key=lambda x: x.ratio if x.ratio is not None else -float('inf'), reverse=True)
         cumulative_value = [sum(task.value for task in tasks[:i+1]) for i in range(len(tasks))]
         labels = range(1, len(tasks) + 1)
         fig, ax = plt.subplots()
@@ -27,7 +29,7 @@ class Visualizer:
         ax.set_ylabel('Total Value Delivered')
         ax.set_title('Value Burndown Chart')
         return fig
-    
+
     def reset_visualization(self):
         # Clear any chart data stored in the session state
         if 'chart_data' in st.session_state:

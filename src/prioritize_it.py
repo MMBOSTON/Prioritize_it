@@ -64,7 +64,8 @@ class PrioritizeIt:
         tasks = self.view_tasks()
         task_strings = []
         if tasks:
-            tasks.sort(key=lambda task: task.ratio, reverse=True)
+            # Modify the sorting key to handle None values
+            tasks.sort(key=lambda task: task.ratio if task.ratio is not None else -float('inf'), reverse=True)
             for task in tasks:
                 task_strings.append(f"Task:\n{task.description}\nValue:\n{task.value}\nEffort:\n{task.effort}\nRatio:\n{task.ratio}")
         return task_strings
@@ -85,7 +86,10 @@ class PrioritizeIt:
             st.session_state['Report'] = None
         if 'visualize' in st.session_state:
             st.session_state['visualize'] = False
-
+        # Clear the task description field
+        if 'task_description' in st.session_state:
+            st.session_state['task_description'] = ""
+    
     def load_tasks_from_file(self, file):
         try:
             if file.type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
