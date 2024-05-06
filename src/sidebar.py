@@ -4,8 +4,6 @@ import streamlit as st
 from src.prioritize_it import PrioritizeIt
 from src.instructions import get_instructions
 
-import streamlit as st
-from src.prioritize_it import PrioritizeIt
 
 def display_sidebar(prioritize):
     st.sidebar.title('Task Prioritizer')
@@ -19,29 +17,31 @@ def display_sidebar(prioritize):
     uploaded_file = st.sidebar.file_uploader("Upload your tasks file", type=["xlsx", "docx", "csv", "txt"])
     if uploaded_file is not None:
         prioritize.load_tasks_from_file(uploaded_file)
-        # Optionally, force a UI update here if necessary
 
-    # Create three columns in the sidebar for buttons
-    col1, col2, col3 = st.sidebar.columns(3)
+    # # Custom layout for buttons using markdown and HTML
+    # st.sidebar.markdown("""
+    # <div style="display: flex; justify-content: space-between;">
+    #     <button style="margin-right: 10px;" onclick="location.href='#GenerateReport'">Generate Report</button>
+    #     <button style="margin-right: 10px;" onclick="location.href='#VisualizeTasks'">Visualize Tasks</button>
+    #     <button onclick="location.href='#RemoveAllTasks'">Remove All Tasks</button>
+    # </div>
+    # """, unsafe_allow_html=True)
 
-    # Place the "Generate Report" button in the first column
-    with col1:
-        if st.sidebar.button('Generate Report'):
-            Report = prioritize.generate_Report()
-            st.session_state['Report'] = Report
-            st.sidebar.success("Report generated successfully! Check the 'Report' folder.")
+    # Place the "Generate Report" button logic
+    if st.sidebar.button('Generate Report'):
+        Report = prioritize.generate_Report()
+        st.session_state['Report'] = Report
+        st.sidebar.success("Report generated successfully! Check the 'Report' folder.")
 
-    # Place the "Visualize Tasks" button in the second column
-    with col2:
-        if st.sidebar.button('Visualize Tasks'):
-            st.session_state['visualize'] = True
+    # Place the "Visualize Tasks" button logic
+    if st.sidebar.button('Visualize Tasks'):
+        st.session_state['visualize'] = True
 
-    # Place the "Remove All Tasks" button in the third column
-    with col3:
-        if st.sidebar.button('Remove All Tasks'):
-            st.session_state['remove_all_tasks_clicked'] = True
-        else:
-            st.session_state['remove_all_tasks_clicked'] = False
+    # Place the "Remove All Tasks" button logic
+    if st.sidebar.button('Remove All Tasks'):
+        st.session_state['remove_all_tasks_clicked'] = True
+    else:
+        st.session_state['remove_all_tasks_clicked'] = False
 
     # Display the "OK" and "Cancel" buttons in the sidebar only if the "Remove All Tasks" button was clicked
     if 'remove_all_tasks_clicked' in st.session_state and st.session_state['remove_all_tasks_clicked']:
