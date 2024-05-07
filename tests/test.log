@@ -1,4 +1,81 @@
-INFO:root:test_calculate_ratio passed
+
+INFO:root:Logging setup complete.
 INFO:root:Set up task with description: Test task, value: 10, effort: 5
-INFO:root:test_calculate_ratio passed
+INFO:root:Tear down task with description: Test task, value: 10, effort: 5
+INFO:root:Set up task with description: Test task, value: 10, effort: 5
+INFO:root:Tear down task with description: Test task, value: 10, effort: 5
+INFO:root:Set up task with description: Test task, value: 10, effort: 5
+WARNING:root:Duplicate task: Test task
+INFO:root:Tear down task with description: Test task, value: 10, effort: 5
+INFO:root:Set up task with description: Test task, value: 10, effort: 5
+WARNING:root:Duplicate task: Test task
+INFO:root:Tear down task with description: Test task, value: 10, effort: 5
+INFO:root:Set up task with description: Test task, value: 10, effort: 5
+INFO:root:test_task_description passed
+INFO:root:Tear down task with description: Test task, value: 10, effort: 5
+INFO:root:Set up task with description: Test task, value: 10, effort: 5
+INFO:root:test_task_effort passed
+INFO:root:Tear down task with description: Test task, value: 10, effort: 5
+INFO:root:Set up task with description: Test task, value: 10, effort: 5
+INFO:root:test_task_value passed
+INFO:root:Tear down task with description: Test task, value: 10, effort: 5
+INFO:root:Set up task with description: Test task, value: 10, effort: 5
+INFO:root:Tear down task with description: Test task, value: 10, effort: 5
+INFO:root:Set up task with description: Test task, value: 10, effort: 5
+WARNING:root:Duplicate task: Test task
+INFO:root:test_visualize_tasks passed
+INFO:root:Tear down task with description: Test task, value: 10, effort: 5
+INFO:root:Logging setup complete.
+INFO:root:Set up task with description: Test task, value: 10, effort: 5
+WARNING:root:Duplicate task: Test task
+INFO:root:Tear down task with description: Test task, value: 10, effort: 5
+INFO:root:Set up task with description: Test task, value: 10, effort: 5
+INFO:root:Tear down task with description: Test task, value: 10, effort: 5
+INFO:root:Set up task with description: Test task, value: 10, effort: 5
+WARNING:root:Duplicate task: Test task
+INFO:root:Tear down task with description: Test task, value: 10, effort: 5
+INFO:root:Set up task with description: Test task, value: 10, effort: 5
+WARNING:root:Duplicate task: Test task
+INFO:root:Tear down task with description: Test task, value: 10, effort: 5
+INFO:root:Set up task with description: Test task, value: 10, effort: 5
+INFO:root:test_task_description passed
+INFO:root:Tear down task with description: Test task, value: 10, effort: 5
+INFO:root:Set up task with description: Test task, value: 10, effort: 5
+INFO:root:test_task_effort passed
+INFO:root:Tear down task with description: Test task, value: 10, effort: 5
+INFO:root:Set up task with description: Test task, value: 10, effort: 5
+INFO:root:test_task_value passed
+INFO:root:Tear down task with description: Test task, value: 10, effort: 5
+INFO:root:Set up task with description: Test task, value: 10, effort: 5
+INFO:root:Tear down task with description: Test task, value: 10, effort: 5
+INFO:root:Set up task with description: Test task, value: 10, effort: 5
+WARNING:root:Duplicate task: Test task
+INFO:root:test_visualize_tasks passed
+INFO:root:Tear down task with description: Test task, value: 10, effort: 5
+INFO:root:Logging setup complete.
+INFO:root:Set up task with description: Test task, value: 10, effort: 5
+WARNING:root:Duplicate task: Test task
+INFO:root:Tear down task with description: Test task, value: 10, effort: 5
+INFO:root:Set up task with description: Test task, value: 10, effort: 5
+INFO:root:Tear down task with description: Test task, value: 10, effort: 5
+INFO:root:Set up task with description: Test task, value: 10, effort: 5
+WARNING:root:Duplicate task: Test task
+INFO:root:Tear down task with description: Test task, value: 10, effort: 5
+INFO:root:Set up task with description: Test task, value: 10, effort: 5
+WARNING:root:Duplicate task: Test task
+INFO:root:Tear down task with description: Test task, value: 10, effort: 5
+INFO:root:Set up task with description: Test task, value: 10, effort: 5
+INFO:root:test_task_description passed
+INFO:root:Tear down task with description: Test task, value: 10, effort: 5
+INFO:root:Set up task with description: Test task, value: 10, effort: 5
+INFO:root:test_task_effort passed
+INFO:root:Tear down task with description: Test task, value: 10, effort: 5
+INFO:root:Set up task with description: Test task, value: 10, effort: 5
+INFO:root:test_task_value passed
+INFO:root:Tear down task with description: Test task, value: 10, effort: 5
+INFO:root:Set up task with description: Test task, value: 10, effort: 5
+INFO:root:Tear down task with description: Test task, value: 10, effort: 5
+INFO:root:Set up task with description: Test task, value: 10, effort: 5
+WARNING:root:Duplicate task: Test task
+INFO:root:test_visualize_tasks passed
 INFO:root:Tear down task with description: Test task, value: 10, effort: 5

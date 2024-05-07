@@ -24,7 +24,7 @@ class PrioritizeIt:
         tasks.append(task)
         self.data_manager.save_tasks(tasks)
 
-    def remove_a_task(self, description):
+    def remove_task(self, description):
         """Remove a specific task based on its description."""
         tasks = self.data_manager.load_tasks()
         tasks = [task for task in tasks if task.description != description]

@@ -1,9 +1,19 @@
 import os
 import shutil
 import streamlit as st
+import subprocess
 from src.prioritize_it import PrioritizeIt
 from src.instructions import get_instructions
 
+def run_tests():
+    # Define the command to run the tests
+    command = "python -m unittest tests.test_task"
+    
+    # Run the command in a separate process and capture the output
+    process = subprocess.run(command, shell=True, capture_output=True, text=True)
+    
+    # Return the output of the test run
+    return process.stdout
 
 def display_sidebar(prioritize):
     st.sidebar.title('Task Prioritizer')
@@ -18,30 +28,49 @@ def display_sidebar(prioritize):
     if uploaded_file is not None:
         prioritize.load_tasks_from_file(uploaded_file)
 
-    # # Custom layout for buttons using markdown and HTML
-    # st.sidebar.markdown("""
-    # <div style="display: flex; justify-content: space-between;">
-    #     <button style="margin-right: 10px;" onclick="location.href='#GenerateReport'">Generate Report</button>
-    #     <button style="margin-right: 10px;" onclick="location.href='#VisualizeTasks'">Visualize Tasks</button>
-    #     <button onclick="location.href='#RemoveAllTasks'">Remove All Tasks</button>
-    # </div>
-    # """, unsafe_allow_html=True)
+    # Create two columns for the buttons
+    col1, col2 = st.sidebar.columns(2)
 
-    # Place the "Generate Report" button logic
-    if st.sidebar.button('Generate Report'):
-        Report = prioritize.generate_Report()
-        st.session_state['Report'] = Report
-        st.sidebar.success("Report generated successfully! Check the 'Report' folder.")
+    # Place the "Generate Report" button in the first column
+    with col1:
+        if st.button('Generate Report'):
+            Report = prioritize.generate_Report()
+            st.session_state['Report'] = Report
+            st.success("Report generated successfully! Check the 'Report' folder.")
 
-    # Place the "Visualize Tasks" button logic
-    if st.sidebar.button('Visualize Tasks'):
-        st.session_state['visualize'] = True
+    # Place the "Visualize Tasks" button in the second column
+    with col2:
+        if st.button('Visualize Tasks'):
+            st.session_state['visualize'] = True
 
-    # Place the "Remove All Tasks" button logic
-    if st.sidebar.button('Remove All Tasks'):
-        st.session_state['remove_all_tasks_clicked'] = True
-    else:
-        st.session_state['remove_all_tasks_clicked'] = False
+    # Create two more columns for the next set of buttons
+    col3, col4 = st.sidebar.columns(2)
+
+    # Place the "Remove All Tasks" button in the first column
+    with col3:
+        if st.button('Remove All Tasks'):
+            st.session_state['remove_all_tasks_clicked'] = True
+        else:
+            st.session_state['remove_all_tasks_clicked'] = False
+
+    # Place the "Run Tests" button in the second column
+    with col4:
+        if st.button("Run Tests"):
+            # Run the tests and get the output
+            test_output = run_tests()
+            
+            # Display the test output in the main content area
+            st.write("Test Output:")
+            st.text(test_output)
+            
+            # Check if the test.log file exists
+            test_log_path = "tests/test.log"
+            if os.path.exists(test_log_path):
+                # Display a "View Test Results" button that provides a download link
+                if st.sidebar.button("View Test Results"):
+                    st.sidebar.markdown(f"""
+                        <a href="{test_log_path}" download>Download Test Results</a>
+                    """, unsafe_allow_html=True)
 
     # Display the "OK" and "Cancel" buttons in the sidebar only if the "Remove All Tasks" button was clicked
     if 'remove_all_tasks_clicked' in st.session_state and st.session_state['remove_all_tasks_clicked']:
@@ -97,7 +126,7 @@ def handle_form(prioritize):
         prioritize.add_task(description, value, effort)
 
     if remove_task_button:
-        prioritize.remove_a_task(description)
+        prioritize.remove_task(description)
 
     if reset_tasks_button:
         # This part is already handled in the display_sidebar function for the sidebar

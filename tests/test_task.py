@@ -5,6 +5,7 @@ from src.prioritize_it import PrioritizeIt
 
 # Set up logging
 logging.basicConfig(filename='tests/test.log', level=logging.INFO)
+logging.info("Logging setup complete.")
 
 class TestTask(unittest.TestCase):
     def setUp(self):

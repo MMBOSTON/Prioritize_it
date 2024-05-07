@@ -11,11 +11,14 @@ class Visualizer:
         tasks.sort(key=lambda x: x.ratio if x.ratio is not None else -float('inf'), reverse=True)
         values = [task.value for task in tasks]
         labels = [task.description for task in tasks]
-        fig, ax = plt.subplots()
+        
+        # Create a figure with a larger height
+        fig, ax = plt.subplots(figsize=(10, 10))  # Adjust the size as needed
+        
         ax.bar(labels, values)
         ax.set_xlabel('Tasks')
         ax.set_ylabel('Value/Effort Ratio')
-        ax.set_title('Pareto Chart')
+        ax.set_title('Pareto Chart', fontsize=40)
         return fig
 
     def plot_burndown(self, tasks):

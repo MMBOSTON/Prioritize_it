@@ -36,7 +36,7 @@ if add_task_clicked:
 # If remove_task_clicked is True, remove a specific task
 if remove_task_clicked:
     task_description = st.text_input("Enter the description of the task to remove:")
-    prioritize.remove_a_task(task_description)
+    prioritize.remove_task(task_description)
 
 # If reset_tasks_clicked is True, reset tasks
 if reset_tasks_clicked:

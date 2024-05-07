@@ -3,10 +3,10 @@ class Task:
         self.description = description
         self.value = value
         self.effort = effort
-        self.ratio = ratio # This line is new
+        self.calculate_ratio()  # Call this method to calculate the ratio
 
     def calculate_ratio(self):
         if self.effort == 0:
-            self.ratio = 0 # Or any other appropriate value for division by zero
+            self.ratio = 0  # Or any other appropriate value for division by zero
         else:
             self.ratio = self.value / self.effort
