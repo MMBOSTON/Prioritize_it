@@ -47,10 +47,6 @@ def InputProc():
             st.error(f"Failed to create tasks. Missing key in dictionary: {e}")
             tasks = []
 
-        # Display tasks and allow selection
-        selected_task_ids = create_interactive_table(tasks)
-        selected_tasks = [task for task in tasks if task.id in selected_task_ids]
-
     # Convert list of Task objects to a DataFrame
     task_dicts = [
         {
@@ -70,6 +66,12 @@ def InputProc():
     with st.expander("View Tasks Table"):
         # Display the DataFrame as a table in Streamlit
         st.table(tasks_df)
+
+    # Get selected row numbers from pull-down menu
+    selected_row_numbers = st.multiselect("Select tasks", list(range(len(tasks))))
+
+    # Get selected tasks
+    selected_tasks = [tasks[i] for i in selected_row_numbers]
 
     # Option to visualize tasks
     if st.button("Visualize Tasks", key="visualize_tasks_input_proc"):
