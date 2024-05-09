@@ -5,17 +5,30 @@ from src.task import Task  # Import the Task class
 from src.visualizer import Visualizer
 from .data_entry_gui import create_interactive_table
 from .generate_tasks import generate_core_tasks, save_tasks_to_json
-
+import os
 
 def InputProc():
     visualizer = Visualizer()
 
     with st.expander("Task Management"):
+        col1, col2 = st.columns(2)
+
         # Option to generate core tasks
-        if st.button("Generate Core Tasks"):
-            tasks = generate_core_tasks()
-            save_tasks_to_json(tasks)
-            st.success("Core tasks generated and saved.")
+        with col1:
+            if st.button("Generate Core Tasks"):
+                tasks = generate_core_tasks()
+                save_tasks_to_json(tasks)
+                st.success("Core tasks generated and saved.")
+
+        # Option to delete core tasks
+        with col2:
+            if st.button("Delete Core Tasks"):
+                try:
+                    os.remove('data/core_tasks.json')
+                    st.success("Core tasks deleted.")
+                except FileNotFoundError:
+                    st.warning("No tasks found to delete.")
+                tasks = []
 
         # Load tasks from JSON or use sample data
         try:
@@ -38,47 +51,39 @@ def InputProc():
         selected_task_ids = create_interactive_table(tasks)
         selected_tasks = [task for task in tasks if task.id in selected_task_ids]
 
-        # Convert list of Task objects to a DataFrame
-        task_dicts = [
-            {
-                "Name": task.name,
-                "Description": task.description,
-                "Value": task.value,
-                "Effort": task.effort,
-                "ID": task.id,
-            }
-            for task in tasks
-        ]
+    # Convert list of Task objects to a DataFrame
+    task_dicts = [
+        {
+            "Name": task.name,
+            "Description": task.description,
+            "Value": task.value,
+            "Effort": task.effort,
+            "ID": task.id,
+        }
+        for task in tasks
+    ]
 
-        # Check if the tasks list is empty
-        if tasks:
-            # If the list is not empty, access its elements
-            first_task = tasks[0]
-            print(f"Task: {first_task}")
-            print(f"Name: {first_task.name}")
-            print(f"Description: {first_task.description}")
-            print(f"Value: {first_task.value}")
-            print(f"Effort: {first_task.effort}")
-            print(f"ID: {first_task.id}")
-        else:
-            # If the list is empty, print an error message or handle the error in some other way
-            print("Error: The tasks list is empty.")
-
-        # Create a DataFrame directly from the list of Task objects
-        tasks_df = pd.DataFrame([task.__dict__ for task in tasks])
-
-        # Print out the DataFrame to the console
-        print(tasks_df)
+    # Create a DataFrame directly from the list of Task objects
+    tasks_df = pd.DataFrame([task.__dict__ for task in tasks])
 
     # Create a collapsible section for the table
     with st.expander("View Tasks Table"):
         # Display the DataFrame as a table in Streamlit
         st.table(tasks_df)
 
-    # Plot Pareto chart and burndown chart for selected tasks
-    if selected_tasks:
-        pareto_chart = visualizer.plot_pareto(selected_tasks)
-        st.pyplot(pareto_chart)
-
-        burndown_chart = visualizer.plot_burndown(selected_tasks)
-        st.pyplot(burndown_chart)
+    # Option to visualize tasks
+    if st.button("Visualize Tasks", key="visualize_tasks_input_proc"):
+        # Check if there are selected tasks
+        if selected_tasks:
+            # Calculate ratio for each task
+            for task in selected_tasks:
+                task.calculate_ratio()
+    
+            # Plot Pareto chart and burndown chart for selected tasks
+            pareto_chart = visualizer.plot_pareto(selected_tasks)
+            st.pyplot(pareto_chart)
+    
+            burndown_chart = visualizer.plot_burndown(selected_tasks)
+            st.pyplot(burndown_chart)
+        else:
+            st.warning("No tasks selected for visualization.")

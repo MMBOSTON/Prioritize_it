@@ -43,7 +43,8 @@ def display_sidebar(prioritize):
 
     # Place the "Visualize Tasks" button in the second column
     with col2:
-        if st.button('Visualize Tasks'):
+        if st.button("Visualize Tasks", key="visualize_tasks_sidebar"):
+        #if st.button('Visualize Tasks'):
             st.session_state['visualize'] = True
 
     # Create two more columns for the next set of buttons
