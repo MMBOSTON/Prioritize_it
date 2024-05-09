@@ -73,19 +73,34 @@ def InputProc():
     # Get selected tasks
     selected_tasks = [tasks[i] for i in selected_row_numbers]
 
+    # Create two columns for the buttons
+    col1, col2 = st.columns(2)
+    
     # Option to visualize tasks
-    if st.button("Visualize Tasks", key="visualize_tasks_input_proc"):
-        # Check if there are selected tasks
-        if selected_tasks:
-            # Calculate ratio for each task
-            for task in selected_tasks:
-                task.calculate_ratio()
+    with col1:
+        if st.button("Visualize Tasks", key="visualize_tasks_input_proc"):
+            # Check if there are selected tasks
+            if selected_tasks:
+                # Calculate ratio for each task
+                for task in selected_tasks:
+                    task.calculate_ratio()
+        
+                # Plot Pareto chart and burndown chart for selected tasks
+                pareto_chart = visualizer.plot_pareto(selected_tasks)
+                st.pyplot(pareto_chart)
+        
+                burndown_chart = visualizer.plot_burndown(selected_tasks)
+                st.pyplot(burndown_chart)
+            else:
+                st.warning("No tasks selected for visualization.")
     
-            # Plot Pareto chart and burndown chart for selected tasks
-            pareto_chart = visualizer.plot_pareto(selected_tasks)
-            st.pyplot(pareto_chart)
-    
-            burndown_chart = visualizer.plot_burndown(selected_tasks)
-            st.pyplot(burndown_chart)
-        else:
-            st.warning("No tasks selected for visualization.")
+    # Option to generate report
+    with col2:
+        if st.button("Generate Report", key="generate_report_input_proc"):
+            # Check if there are selected tasks
+            if selected_tasks:
+                # Generate report for each task
+                for task in selected_tasks:
+                    task.generate_report()
+            else:
+                st.warning("No tasks selected for report generation.")

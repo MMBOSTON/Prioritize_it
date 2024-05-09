@@ -19,10 +19,11 @@ class Visualizer:
         
         fig, ax = plt.subplots(figsize=(10, 10))  # Adjust the size as needed
         
-        ax.bar(labels, values)
-        ax.set_xlabel('Tasks')
-        ax.set_ylabel('Value/Effort Ratio')
-        ax.set_title('Pareto Chart', fontsize=40)
+        ax.bar(labels, values, color='blue')  # Added color
+        ax.set_xlabel('Tasks', fontsize=12)  # Added fontsize
+        ax.set_ylabel('Value/Effort Ratio', fontsize=12)  # Added fontsize
+        ax.set_title('Pareto Chart', fontsize=14)  # Adjusted fontsize
+        ax.grid(True)  # Added grid
         return fig
 
     def plot_burndown(self, tasks: List[Task]) -> plt.Figure:
@@ -31,10 +32,11 @@ class Visualizer:
         cumulative_value = [sum(task.value for task in tasks[:i+1]) for i in range(len(tasks))]
         labels = range(1, len(tasks) + 1)
         fig, ax = plt.subplots()
-        ax.plot(labels, cumulative_value)
-        ax.set_xlabel('Tasks Completed')
-        ax.set_ylabel('Total Value Delivered')
-        ax.set_title('Value Burndown Chart')
+        ax.plot(labels, cumulative_value, marker='o')  # Added marker
+        ax.set_xlabel('Tasks Completed', fontsize=12)  # Added fontsize
+        ax.set_ylabel('Total Value Delivered', fontsize=12)  # Added fontsize
+        ax.set_title('Value Burndown Chart', fontsize=14)  # Added fontsize
+        ax.grid(True)  # Added grid
         return fig
 
     def reset_visualization(self):
