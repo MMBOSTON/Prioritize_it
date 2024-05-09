@@ -1,6 +1,5 @@
-###TODO: Readin the json and constuct the dataframe....  dipslay the dataframe in the app itable grid.
-
 import streamlit as st
+
 from src.prioritize_it import PrioritizeIt
 from src.sidebar import display_sidebar, handle_form
 

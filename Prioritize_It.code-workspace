@@ -2,6 +2,9 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"path": "input_proc"
 		}
 	],
 	"settings": {}

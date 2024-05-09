@@ -1,9 +1,12 @@
 import os
 import shutil
-import streamlit as st
 import subprocess
-from src.prioritize_it import PrioritizeIt
+
+import streamlit as st
+
 from src.instructions import get_instructions
+from src.prioritize_it import PrioritizeIt
+
 
 def run_tests():
     # Define the command to run the tests

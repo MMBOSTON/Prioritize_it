@@ -1,6 +1,8 @@
-import logging
 import json
+import logging
+
 from .task import Task
+
 
 class DataManager:
     def __init__(self, filename='data/tasks.json'):
@@ -23,6 +25,7 @@ class DataManager:
         except Exception as e:
             logging.error(f"Error loading tasks from file: {e}")
             return []
+
 
     def reset_tasks(self):
         try:

@@ -1,7 +1,8 @@
-import unittest
 import logging
-from src.task import Task
+import unittest
+
 from src.prioritize_it import PrioritizeIt
+from src.task import Task
 
 # Set up logging
 logging.basicConfig(filename='tests/test.log', level=logging.INFO)
