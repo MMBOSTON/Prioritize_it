@@ -15,3 +15,7 @@ class Task:
             self.ratio = 0  # Or any other appropriate value for division by zero
         else:
             self.ratio = self.value / self.effort
+
+    def generate_report(self):
+        # replace with your actual logic for generating a report
+        print(f"Generating report for task: {self.name}")

@@ -17,7 +17,7 @@ class Visualizer:
         values = [task.value for task in tasks]
         labels = [task.description for task in tasks]
         
-        fig, ax = plt.subplots(figsize=(10, 10))  # Adjust the size as needed
+        fig, ax = plt.subplots(figsize=(15, 15))  # Adjust the size as needed
         
         ax.bar(labels, values, color='blue')  # Added color
         ax.set_xlabel('Tasks', fontsize=12)  # Added fontsize
@@ -31,7 +31,8 @@ class Visualizer:
         tasks.sort(key=lambda x: x.ratio if x.ratio is not None else -float('inf'), reverse=True)
         cumulative_value = [sum(task.value for task in tasks[:i+1]) for i in range(len(tasks))]
         labels = range(1, len(tasks) + 1)
-        fig, ax = plt.subplots()
+        ##fig, ax = plt.subplots()
+        fig, ax = plt.subplots(figsize=(15, 15))
         ax.plot(labels, cumulative_value, marker='o')  # Added marker
         ax.set_xlabel('Tasks Completed', fontsize=12)  # Added fontsize
         ax.set_ylabel('Total Value Delivered', fontsize=12)  # Added fontsize
@@ -48,4 +49,11 @@ class Visualizer:
         """Visualize the tasks with a Pareto chart and a burndown chart."""
         pareto_chart = self.plot_pareto(tasks)
         burndown_chart = self.plot_burndown(tasks)
+    
+        # Display the Pareto chart
+        st.pyplot(pareto_chart)
+    
+        # Display the burndown chart
+        st.pyplot(burndown_chart)
+    
         return pareto_chart, burndown_chart
