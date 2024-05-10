@@ -1,43 +1,26 @@
-import sys
-import os
 import json
+import os
+import sys
+
 import pandas as pd
 import streamlit as st
-
-from .data_entry_gui import create_interactive_table
-from .generate_tasks import generate_core_tasks, save_tasks_to_json
 from st_aggrid import AgGrid
+
 from src.task import Task
 from src.visualizer import Visualizer
 
-def display_tasks_with_aggrid(tasks):
-    task_dicts = [
-        {
-            "Name": task.name,
-            "Description": task.description,
-            "Value": task.value,
-            "Effort": task.effort,
-            "ID": task.id,
-        }
-        for task in tasks
-    ]
+from .data_entry_gui import create_interactive_table
+from .generate_tasks import generate_core_tasks, save_tasks_to_json
+from .grid_config import data  # Make sure to import data
+from .grid_config import custom_buttons, gridOptions  # Added data here
 
-    grid_response = AgGrid(pd.DataFrame(task_dicts))
+
+def display_tasks_with_aggrid(tasks):
+    grid_response = AgGrid(tasks, gridOptions=gridOptions, height=800, key="grid0", editable=True, suppressMovableColumns=True, filter=True, sortable=False, autoSizeStrategy=dict(type="fitGridWidth"), pagination=True)
     return grid_response
 
 def display_tasks_with_st_table(tasks):
-    task_dicts = [
-        {
-            "Name": task.name,
-            "Description": task.description,
-            "Value": task.value,
-            "Effort": task.effort,
-            "ID": task.id,
-        }
-        for task in tasks
-    ]
-
-    st.table(pd.DataFrame(task_dicts))
+    st.table(data)
 
 def InputProc():
     visualizer = Visualizer()

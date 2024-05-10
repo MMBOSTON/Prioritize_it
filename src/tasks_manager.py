@@ -5,10 +5,10 @@ from typing import List
 
 import streamlit as st
 
+from input_proc.generate_tasks import TaskCore
 from src.data_manager import DataManager
 from src.report_generator import ReportGenerator
 from src.task import Task
-from input_proc.generate_tasks import TaskCore
 from src.visualizer import Visualizer
 
 

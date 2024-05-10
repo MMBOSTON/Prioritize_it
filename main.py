@@ -1,9 +1,13 @@
+import sys
+sys.path.insert(0, "C:\\Users\\16175\\Documents\\GitHub\\Prioritize_it")
+
+import os
 import streamlit as st
 
 from src.prioritize_it import PrioritizeIt
-from src.sidebar import display_sidebar, handle_form
+
 from src.report_generator import ReportGenerator
-import os
+from src.sidebar import display_sidebar, handle_form
 
 # Display the title with smaller font
 st.markdown("<h1 style='text-align: center; color: White;font-size: 26px;'>★★ !!PRIORITIZE IT!! ★★</h1>", unsafe_allow_html=True)
