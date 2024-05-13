@@ -26,6 +26,11 @@ def InputProc():
     visualizer = Visualizer()
     tasks = []
 
+    # Display the tasks with ag-grid or st.table based on user's choice
+    use_ag_grid = st.checkbox('Use AgGrid')
+    if use_ag_grid:
+        grid_response = display_tasks_with_aggrid(tasks)
+
     with st.expander("Task Management"):
         col1, col2 = st.columns(2)
 
@@ -60,11 +65,7 @@ def InputProc():
         except KeyError as e:
             st.error(f"Failed to create tasks. Missing key in dictionary: {e}")
 
-    # Display the tasks with ag-grid or st.table based on user's choice
-    use_ag_grid = st.checkbox('Use AgGrid')
-    if use_ag_grid:
-        grid_response = display_tasks_with_aggrid(tasks)
-    else:
+    if not use_ag_grid:
         display_tasks_with_st_table(tasks)
 
     # Get selected row numbers from pull-down menu
