@@ -27,22 +27,43 @@ def InputProc():
     tasks = []
 
     with st.expander("AgGrid Option"):
-        # Display the tasks with ag-grid or st.table based on user's choice
         use_ag_grid = st.checkbox('Use AgGrid')
         if use_ag_grid:
             grid_response = display_tasks_with_aggrid(tasks)
+            selected_tasks = grid_response['selected_rows']
+    
+            col1, col2 = st.columns(2)
+    
+            with col1:
+                visualize_tasks = st.button("Visualize Tasks", key="visualize_tasks_aggrid")
+    
+            with col2:
+                generate_report = st.button("Generate Report", key="generate_report_aggrid")
+    
+            if visualize_tasks:
+                if not selected_tasks.empty:
+                    selected_tasks['ratio'] = selected_tasks.apply(lambda row: row['task_value'] / row['task_effort'], axis=1)
+                    visualizer.visualize_tasks(selected_tasks)
+                else:
+                    st.warning("No tasks selected for visualization.")
+            
+            if generate_report:
+                if not selected_tasks.empty:
+                    for index, task in selected_tasks.iterrows():
+                        # Add your code to generate a report for each task here
+                        pass
+                else:
+                    st.warning("No tasks selected for report generation.")
 
     with st.expander("Task Management"):
         col1, col2 = st.columns(2)
 
-        # Option to generate core tasks
         with col1:
             if st.button("Generate Core Tasks"):
                 tasks = generate_core_tasks()
                 save_tasks_to_json(tasks)
                 st.success("Core tasks generated and saved.")
 
-        # Option to delete core tasks
         with col2:
             if st.button("Delete Core Tasks"):
                 try:
@@ -51,7 +72,6 @@ def InputProc():
                 except FileNotFoundError:
                     st.warning("No tasks found to delete.")
 
-        # Load tasks from JSON or use sample data
         try:
             with open('data/core_tasks.json', 'r') as f:
                 task_dicts = json.load(f)
@@ -65,49 +85,30 @@ def InputProc():
         except KeyError as e:
             st.error(f"Failed to create tasks. Missing key in dictionary: {e}")
 
-        # Display the tasks with st.table
-        if tasks:  # Only display tasks if the list is not empty
+        if tasks:
             display_tasks_with_st_table(tasks)
 
-        # Get selected row numbers from pull-down menu
         selected_row_numbers = st.multiselect("Select tasks", list(range(len(tasks))))
-
-        # Get selected tasks
         selected_tasks = [tasks[i] for i in selected_row_numbers]
 
-        # Create two columns for the buttons
         col1, col2 = st.columns(2)
 
-        # Option to visualize tasks
         with col1:
             visualize_tasks = st.button("Visualize Tasks", key="visualize_tasks_input_proc")
 
-        # Option to generate report
         with col2:
             generate_report = st.button("Generate Report", key="generate_report_input_proc")
 
-        # Check if the "Visualize Tasks" button was pressed
         if visualize_tasks:
-            # Check if there are selected tasks
             if selected_tasks:
-                # Calculate ratio for each task
                 for task in selected_tasks:
                     task.calculate_ratio()
-
-                # Plot Pareto chart and burndown chart for selected tasks
-                pareto_chart = visualizer.plot_pareto(selected_tasks)
-                st.pyplot(pareto_chart)
-
-                burndown_chart = visualizer.plot_burndown(selected_tasks)
-                st.pyplot(burndown_chart)
+                visualizer.visualize_tasks(selected_tasks)
             else:
                 st.warning("No tasks selected for visualization.")
 
-        # Check if the "Generate Report" button was pressed
         if generate_report:
-            # Check if there are selected tasks
             if selected_tasks:
-                # Generate report for each task
                 for task in selected_tasks:
                     task.generate_report()
             else:
