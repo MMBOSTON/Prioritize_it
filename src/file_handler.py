@@ -17,7 +17,29 @@ class FileHandler:
             file: The file to load tasks from.
         """
         try:
-            pass  # Rest of your load_tasks_from_file code...
+            if file.name.endswith('.csv'):
+                # Read the file with pandas
+                df = pd.read_csv(file)
+
+                # Convert the DataFrame to a list of dictionaries
+                tasks = df.to_dict('records')
+
+                # Add tasks to the task manager
+                for task in tasks:
+                    self.task_manager.add_task(task['name'], task['priority'], task['effort'])
+            else:
+                # Handle plain text files
+                tasks = []
+                for line in file:
+                    line = line.decode("utf-8")  # decode the line from bytes to string
+                    description, value_effort = line.rsplit(" ", 1)  # split the line into description and value/effort
+                    value, effort = value_effort.split(",")  # split the value/effort into value and effort
+                    task = {'name': description.strip(), 'priority': int(value.strip()), 'effort': int(effort.strip())}  # create a new task
+                    tasks.append(task)  # add the task to the tasks list
+                    self.task_manager.add_task(task['name'], task['priority'], task['effort'])
+
+        except Exception as e:
+            print(f"An error occurred while loading tasks from file: {e}")
 
     def parse_task_from_paragraph(self, text):
         """

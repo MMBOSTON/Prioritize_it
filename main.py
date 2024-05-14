@@ -5,25 +5,31 @@ import os
 import streamlit as st
 
 from src.prioritize_it import PrioritizeIt
-
 from src.report_generator import ReportGenerator
 from src.sidebar import display_sidebar, handle_form
+from src.instructions import get_instructions  # Import the get_instructions function
+from input_proc.input_proc import InputProc  # Import the InputProc function
 
 # Display the title with smaller font
-st.markdown("<h1 style='text-align: center; color: White;font-size: 26px;'>★★ !!PRIORITIZE IT!! ★★</h1>", unsafe_allow_html=True)
-st.markdown("<h2 style='text-align: center; color: White;font-size: 18px;'>A PARETO PILOT APP FOR PROJECT MANAGERS</h2>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center; color: DarkGray;font-size: 26px;'>★★ !!PRIORITIZE IT!! ★★</h1>", unsafe_allow_html=True)
+st.markdown("<h2 style='text-align: center; color: DarkGray;font-size: 18px;'>A PARETO PILOT APP FOR PROJECT MANAGERS</h2>", unsafe_allow_html=True)
 
 # Initialize session state
 if 'Report' not in st.session_state:
     st.session_state['Report'] = None
 if 'visualize' not in st.session_state:
     st.session_state['visualize'] = False
+if 'selected_section' not in st.session_state:
+    st.session_state['selected_section'] = None
 
 # Create an instance of PrioritizeIt
 prioritize = PrioritizeIt()
 
 # Display sidebar content
-uploaded_file = display_sidebar(prioritize) # Capture the returned uploaded_file
+st.session_state['selected_section'] = display_sidebar(prioritize) # Capture the returned selected_section
+
+# Call the InputProc function to display the "AgGrid Option" and "Task Management" sections
+InputProc()
 
 # Initialize task_description at the beginning of your script
 task_description = ""
@@ -86,7 +92,3 @@ if st.session_state['visualize']:
     pareto_chart, burndown_chart = prioritize.visualize_tasks(tasks)
     st.pyplot(pareto_chart)
     st.pyplot(burndown_chart)
-
-# Handle the uploaded file if it's not None
-if uploaded_file is not None:
-    prioritize.load_tasks_from_file(uploaded_file)

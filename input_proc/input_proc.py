@@ -7,13 +7,14 @@ import streamlit as st
 from st_aggrid import AgGrid
 
 from src.task import Task
+from src.tasks_manager import TaskManager
 from src.visualizer import Visualizer
 
 from .data_entry_gui import create_interactive_table
 from .generate_tasks import generate_core_tasks, save_tasks_to_json
 from .grid_config import data  # Make sure to import data
 from .grid_config import custom_buttons, gridOptions  # Added data here
-
+from src.file_handler import FileHandler
 
 def display_tasks_with_aggrid(tasks):
     grid_response = AgGrid(tasks, gridOptions=gridOptions, height=800, key="grid0", editable=True, suppressMovableColumns=True, filter=True, sortable=False, autoSizeStrategy=dict(type="fitGridWidth"), pagination=True)
@@ -27,7 +28,7 @@ def InputProc():
     tasks = []
 
     with st.expander("AgGrid Option"):
-        use_ag_grid = st.checkbox('Use AgGrid')
+        use_ag_grid = st.checkbox('Use AgGrid', key='use_ag_grid_key')
         if use_ag_grid:
             grid_response = display_tasks_with_aggrid(tasks)
             selected_tasks = grid_response['selected_rows']
@@ -113,3 +114,35 @@ def InputProc():
                     task.generate_report()
             else:
                 st.warning("No tasks selected for report generation.")
+
+        task_manager = TaskManager()
+    
+    with st.expander("File Upload"):
+        uploaded_file = st.file_uploader("Choose a file", type=["csv", "txt", "text", "xlsx"])    
+        if uploaded_file is not None:
+            file_handler = FileHandler(task_manager)
+            tasks = file_handler.load_tasks_from_file(uploaded_file)
+            st.success("Tasks loaded from file.")
+    
+        col1, col2 = st.columns(2)
+    
+        with col1:
+            visualize_tasks = st.button("Visualize Tasks", key="visualize_tasks_file_upload")
+    
+        with col2:
+            generate_report = st.button("Generate Report", key="generate_report_file_upload")
+    
+        if visualize_tasks:
+            if tasks:
+                for task in tasks:
+                    task.calculate_ratio()
+                visualizer.visualize_tasks(tasks)
+            else:
+                st.warning("No tasks loaded for visualization.")
+    
+        if generate_report:
+            if tasks:
+                for task in tasks:
+                    task.generate_report()
+            else:
+                st.warning("No tasks loaded for report generation.")

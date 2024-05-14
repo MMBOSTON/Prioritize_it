@@ -16,19 +16,6 @@ def create_interactive_table(data: List[Dict]):
     selected_tasks = st.multiselect("Select tasks", df.index, key='selected_tasks')
     return selected_tasks
 
-# def create_interactive_table(data: List[Dict]):
-#     df = pd.DataFrame(data)
-#     st.dataframe(df)
-#     st.write("Select tasks:")
-
-#     selected_tasks = []
-#     for i in df.index:
-#         checked = st.checkbox(f"Select task {i}", key=str(i))
-#         if checked:
-#             selected_tasks.append(i)
-
-#     return selected_tasks
-
 # Example usage
 if __name__ == "__main__":
     # Assuming data is loaded from JSON or generated
