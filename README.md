@@ -1,3 +1,22 @@
+# DONE:
+- Updated PrioritizeIt with TaskList Class name
+- Merged all Class TaskManager functions to TaskList module
+- Changed AgGrid to a new name "Spreadsheet Data Analyzer"
+- Made the AgGrid as the default operation (may put back the check box feature later)
+- Made all AgGrid Table columns adjustable and different width
+- Made the Name/Description cell content viewable "ALL" with mouse pointer
+- Task_value and Task_effort cells editable
+- Automatic Ratio calculation
+- Update Ratio based on the Value/Effort change dynamically
+- Added a Rank column and calculated based on Value/Effort/Ratio
+   ++ Dynamic Rank update is NOT working after any change in Value/Effort
+- Added Cuilitative Effort Curve
+- Merged/layover Pareto vs Burndown curves
+- Task Type Grouping (TODO)
+- Unit for Columns (TODO)
+- Chart by  Group Type or By Task Type
+- 
+
 Data Entry Methods:
 +   Spreadsheet Data Analyzer
 +   File Upload

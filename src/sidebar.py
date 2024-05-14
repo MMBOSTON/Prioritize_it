@@ -5,7 +5,7 @@ import subprocess
 import streamlit as st
 
 from src.instructions import get_instructions
-from src.prioritize_it import PrioritizeIt
+from .tasklist import TaskList
 
 
 def run_tests():
@@ -18,7 +18,7 @@ def run_tests():
     # Return the output of the test run
     return process.stdout
 
-def display_sidebar(prioritize):
+def display_sidebar(tasklist):
     st.sidebar.title('Task Prioritizer')
 
     # Define the sections
@@ -66,10 +66,10 @@ def display_sidebar(prioritize):
                 reset_tasks_button = st.button("Reset Tasks")
     
             if add_task_button:
-                prioritize.add_task(description, value, effort)
+                tasklist.add_task(description, value, effort)
     
             if remove_task_button:
-                prioritize.remove_task(description)
+                tasklist.remove_task(description)
     
             if reset_tasks_button:
                 # This part is already handled in the display_sidebar function for the sidebar
@@ -77,7 +77,7 @@ def display_sidebar(prioritize):
 
     return selected_section  # Return the selected section
 
-def handle_form(prioritize):
+def handle_form(tasklist):
     # Use st.text_area for a larger, multi-line text input field for the description
     description = st.text_area("Task Description", height=100)
 
@@ -108,10 +108,10 @@ def handle_form(prioritize):
         reset_tasks_button = st.button("Reset Tasks")
 
     if add_task_button:
-        prioritize.add_task(description, value, effort)
+        tasklist.add_task(description, value, effort)
 
     if remove_task_button:
-        prioritize.remove_task(description)
+        tasklist.remove_task(description)
 
     if reset_tasks_button:
         # This part is already handled in the display_sidebar function for the sidebar

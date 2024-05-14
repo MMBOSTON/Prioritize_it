@@ -1,6 +1,5 @@
 import importlib
 import json
-import pathlib
 
 import pandas as pd
 import st_aggrid
@@ -9,8 +8,6 @@ from code_editor import code_editor
 from st_aggrid import AgGrid, JsCode
 from st_aggrid.shared import DataReturnMode, JsCodeEncoder
 
-import numpy as np
-
 importlib.reload(st_aggrid)
 
 try:
@@ -18,26 +15,11 @@ try:
 except:
     pass
 
-@st.cache_resource
-def getData():
-    # Adjust the path to point to the correct directory
-    path = pathlib.Path(__file__).parent.parent / "data/pre-saved-tasks.json"
-    data = pd.read_json(path)
-    print(data.columns)
-    data['ratio'] = data['task_value'] / data['task_effort']  # Calculate 'ratio'
-    data['Rank'] = np.ceil(data['task_value'] / data['task_effort'] * data['ratio'])  # Calculate the Rank
-    data['Rank'] = data['Rank'].astype(int)  # Convert Rank to integer
-    return data
+# Load your data
+data = getData()
 
-if "data" not in st.session_state:
-    st.session_state.data = getData()
-
-data = st.session_state.data
-
-if st.button('Update Rank'):
-    data['ratio'] = data['task_value'] / data['task_effort']  # Calculate 'ratio'
-    data['Rank'] = np.ceil(data['task_value'] / data['task_effort'] * data['ratio'])  # Calculate the Rank
-    data['Rank'] = data['Rank'].astype(int)  # Convert Rank to integer
+# Calculate the Rank and add it to your data
+data = create_interactive_table(data)
 
 gridOptions = {
     "columnTypes": {
@@ -63,34 +45,14 @@ gridOptions = {
             "minWidth": 100,
             "maxWidth": 600,
             "cellStyle": {"fontWeight": "bold", "white-space": "normal"},
-            #"tooltipField": "name",
-            "tooltipComponent": JsCode("""
-                function CustomTooltip() {}
-                CustomTooltip.prototype.init = function(params) {
-                    this.eGui = document.createElement('div');
-                    this.eGui.innerHTML = params.value;
-                };
-                CustomTooltip.prototype.getGui = function() {
-                    return this.eGui;
-                };
-            """),
+            "tooltipField": "name",
         },
         {
             "field": "description",
             "minWidth": 200,
             "maxWidth": 800,
             "cellStyle": {"white-space": "normal"},
-            #"tooltipField": "description",
-            "tooltipComponent": JsCode("""
-                function CustomTooltip() {}
-                CustomTooltip.prototype.init = function(params) {
-                    this.eGui = document.createElement('div');
-                    this.eGui.innerHTML = params.value;
-                };
-                CustomTooltip.prototype.getGui = function() {
-                    return this.eGui;
-                };
-            """),
+            "tooltipField": "description",
         },
         {
             "field": "task_value",
@@ -226,6 +188,18 @@ options = {
     "foldStyle": "markbegin",
     "enableLiveAutocompletion": True,
 }
+
+
+@st.cache_data()
+def getData():
+    import pathlib
+    # Adjust the path to point to the correct directory
+    path = pathlib.Path(__file__).parent.parent / "data/pre-saved-tasks.json"
+    data = pd.read_json(path)
+    data['Rank'] = data['task_value'] / data['task_effort'] * data['ratio']  # Calculate the Rank
+    return data
+
+data = getData()
 
 cols = st.columns([2, 3])
 

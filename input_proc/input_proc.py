@@ -1,13 +1,9 @@
-import json
-import os
-import sys
-
+import json, os
 import pandas as pd
 import streamlit as st
 from st_aggrid import AgGrid
 
 from src.task import Task
-from src.tasks_manager import TaskManager
 from src.visualizer import Visualizer
 
 from .data_entry_gui import create_interactive_table
@@ -17,44 +13,53 @@ from .grid_config import custom_buttons, gridOptions  # Added data here
 from src.file_handler import FileHandler
 
 def display_tasks_with_aggrid(tasks):
-    grid_response = AgGrid(tasks, gridOptions=gridOptions, height=800, key="grid0", editable=True, suppressMovableColumns=True, filter=True, sortable=False, autoSizeStrategy=dict(type="fitGridWidth"), pagination=True)
+    grid_response = AgGrid(
+        tasks, 
+        gridOptions=gridOptions, 
+        height=800, 
+        key="grid0", 
+        editable=True, 
+        suppressMovableColumns=True, 
+        filter=True, 
+        sortable=False, 
+        autoSizeStrategy=dict(type="fitGridWidth"), 
+        pagination=True
+    )
     return grid_response
 
 def display_tasks_with_st_table(tasks):
     st.table(data)
 
-def InputProc():
+def InputProc(task_list):
     visualizer = Visualizer()
     tasks = []
 
-    with st.expander("AgGrid Option"):
-        use_ag_grid = st.checkbox('Use AgGrid', key='use_ag_grid_key')
-        if use_ag_grid:
-            grid_response = display_tasks_with_aggrid(tasks)
-            selected_tasks = grid_response['selected_rows']
+    with st.expander("Spreadsheet Data Analyzer"):
+        grid_response = display_tasks_with_aggrid(tasks)
+        selected_tasks = grid_response['selected_rows']
     
-            col1, col2 = st.columns(2)
+        col1, col2 = st.columns(2)
     
-            with col1:
-                visualize_tasks = st.button("Visualize Tasks", key="visualize_tasks_aggrid")
+        with col1:
+            visualize_tasks = st.button("Visualize Tasks", key="visualize_tasks_aggrid")
     
-            with col2:
-                generate_report = st.button("Generate Report", key="generate_report_aggrid")
+        with col2:
+            generate_report = st.button("Generate Report", key="generate_report_aggrid")
     
-            if visualize_tasks:
-                if not selected_tasks.empty:
-                    selected_tasks['ratio'] = selected_tasks.apply(lambda row: row['task_value'] / row['task_effort'], axis=1)
-                    visualizer.visualize_tasks(selected_tasks)
-                else:
-                    st.warning("No tasks selected for visualization.")
+        if visualize_tasks:
+            if not selected_tasks.empty:
+                selected_tasks['ratio'] = selected_tasks.apply(lambda row: row['task_value'] / row['task_effort'], axis=1)
+                visualizer.visualize_tasks(selected_tasks)
+            else:
+                st.warning("No tasks selected for visualization.")
             
-            if generate_report:
-                if not selected_tasks.empty:
-                    for index, task in selected_tasks.iterrows():
-                        # Add your code to generate a report for each task here
-                        pass
-                else:
-                    st.warning("No tasks selected for report generation.")
+        if generate_report:
+            if not selected_tasks.empty:
+                for index, task in selected_tasks.iterrows():
+                    # Add your code to generate a report for each task here
+                    pass
+            else:
+                st.warning("No tasks selected for report generation.")
 
     with st.expander("Task Management"):
         col1, col2 = st.columns(2)
@@ -115,12 +120,10 @@ def InputProc():
             else:
                 st.warning("No tasks selected for report generation.")
 
-        task_manager = TaskManager()
-    
     with st.expander("File Upload"):
         uploaded_file = st.file_uploader("Choose a file", type=["csv", "txt", "text", "xlsx"])    
         if uploaded_file is not None:
-            file_handler = FileHandler(task_manager)
+            file_handler = FileHandler(task_list)
             tasks = file_handler.load_tasks_from_file(uploaded_file)
             st.success("Tasks loaded from file.")
     

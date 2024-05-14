@@ -1,14 +1,17 @@
 import sys
-sys.path.insert(0, "C:\\Users\\16175\\Documents\\GitHub\\Prioritize_it")
-
 import os
+#sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
+
 import streamlit as st
 
-from src.prioritize_it import PrioritizeIt
-from src.report_generator import ReportGenerator
+from src.tasklist import TaskList
+from input_proc.input_proc import InputProc
 from src.sidebar import display_sidebar, handle_form
 from src.instructions import get_instructions  # Import the get_instructions function
-from input_proc.input_proc import InputProc  # Import the InputProc function
+from src.report_generator import ReportGenerator
+
+# Insert the path to the Prioritize_it directory at the beginning of the system path
+sys.path.insert(0, os.path.join(os.environ['USERPROFILE'], 'Documents', 'GitHub', 'Prioritize_it'))
 
 # Display the title with smaller font
 st.markdown("<h1 style='text-align: center; color: DarkGray;font-size: 26px;'>★★ !!PRIORITIZE IT!! ★★</h1>", unsafe_allow_html=True)
@@ -22,42 +25,44 @@ if 'visualize' not in st.session_state:
 if 'selected_section' not in st.session_state:
     st.session_state['selected_section'] = None
 
-# Create an instance of PrioritizeIt
-prioritize = PrioritizeIt()
+# Create an instance of TaskList
+task_list = TaskList()
+input_proc = InputProc(task_list)
+selected_section = display_sidebar(task_list)
 
 # Display sidebar content
-st.session_state['selected_section'] = display_sidebar(prioritize) # Capture the returned selected_section
+st.session_state['selected_section'] = display_sidebar(task_list) # Capture the returned selected_section
 
-# Call the InputProc function to display the "AgGrid Option" and "Task Management" sections
-InputProc()
+# Call the InputProc function to display the "Spreadsheet Data Analyzer" and "Task Management" sections
+task_list.use_input_proc()
 
 # Initialize task_description at the beginning of your script
 task_description = ""
 
 # Add task form
 st.markdown("<h2 style='font-size: 20px;'>Add a new task</h2>", unsafe_allow_html=True)
-add_task_clicked, remove_task_clicked, reset_tasks_clicked = handle_form(prioritize)
+add_task_clicked, remove_task_clicked, reset_tasks_clicked = handle_form(task_list)
 
 # If add_task_clicked is True, add a new task
 if add_task_clicked:
     value = st.number_input("Value")
     effort = st.number_input("Effort")
-    prioritize.add_task(task_description, value, effort)
+    task_list.add_task(task_description, value, effort)
 
 # If remove_task_clicked is True, remove a specific task
 if remove_task_clicked:
     task_description = st.text_input("Enter the description of the task to remove:")
-    prioritize.remove_task(task_description)
+    task_list.remove_task(task_description)
 
 # If reset_tasks_clicked is True, reset tasks
 if reset_tasks_clicked:
-    prioritize.reset_tasks()
+    task_list.reset_tasks()
     st.markdown("<h2 style='font-size: 20px;'>Tasks have been reset. Please refresh the page to see the changes.</h2>", unsafe_allow_html=True)
 
 # Add a button to generate a report
 if st.button('Generate Report', key='generate_report_button'):
     try:
-        report_generator = ReportGenerator(prioritize)
+        report_generator = ReportGenerator(task_list)
         st.session_state['Report'] = report_generator.generate_report()
 
         # Write the report to a file
@@ -82,13 +87,13 @@ if st.session_state['Report']:
 # Display tasks
 st.markdown("<h2 style='font-size: 20px;'>View Tasks</h2>", unsafe_allow_html=True)
 st.markdown("---") # Add a horizontal line for better visibility
-task_strings = prioritize.get_task_string()
+task_strings = task_list.get_task_string()
 for task_string in task_strings:
     st.markdown(task_string, unsafe_allow_html=True)
 
 # Display figures if visualize is True
 if st.session_state['visualize']:
-    tasks = prioritize.view_tasks()
-    pareto_chart, burndown_chart = prioritize.visualize_tasks(tasks)
+    tasks = task_list.view_tasks()
+    pareto_chart, burndown_chart = task_list.visualize_tasks(tasks)
     st.pyplot(pareto_chart)
     st.pyplot(burndown_chart)

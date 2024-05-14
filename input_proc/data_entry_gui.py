@@ -11,10 +11,11 @@ def get_selected_tasks(data: List[Dict]) -> List[Dict]:
 
 def create_interactive_table(data: List[Dict]):
     df = pd.DataFrame(data)
+    df['Rank'] = df['task_value'] / df['task_effort'] * df['ratio']
     st.dataframe(df)
     st.write("Select tasks:")
     selected_tasks = st.multiselect("Select tasks", df.index, key='selected_tasks')
-    return selected_tasks
+    return df.to_dict('records')  # Convert the DataFrame back to a list of dictionaries
 
 # Example usage
 if __name__ == "__main__":
