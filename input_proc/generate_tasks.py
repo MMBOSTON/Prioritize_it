@@ -3,6 +3,7 @@ import random
 from typing import List
 
 from faker import Faker
+import csv
 
 fake = Faker()
 
@@ -14,11 +15,13 @@ class TaskCore:
         self.task_effort = task_effort
         self.task_id = task_id if task_id else fake.uuid4()
 
-def generate_core_tasks(num_tasks: int = 25) -> List[TaskCore]:
+def generate_demo_tasks(num_tasks: int = 25) -> List[TaskCore]:
     tasks = []
     domains = ['AI/ML/Data Science', 'Product Management', 'App Development and Delivery', 'Project Management', 'Marketing and Sales', 'Customer Success', 'Mobile App Development']
     
-    for _ in range(num_tasks):
+    for i in range(num_tasks):
+        # Generate a task ID
+        task_id = f"Task-{i+1:02d}"  # This will generate IDs like "Task-01", "Task-02", etc.
         # Randomly select a domain for each task
         domain = random.choice(domains)
         
@@ -52,16 +55,26 @@ def generate_core_tasks(num_tasks: int = 25) -> List[TaskCore]:
             name=task_name,
             description=task_description,
             task_value=fake.random_int(min=1, max=1000),
-            task_effort=fake.random_int(min=1, max=100)
-        ))
+            task_effort=fake.random_int(min=1, max=100),
+            task_id=task_id
+         ))
     return tasks
 
-def save_tasks_to_json(tasks: List[TaskCore], filename: str = 'data/core_tasks.json'):
+
+def save_tasks_to_json_and_csv(tasks: List[TaskCore], json_filename: str = 'data/demo_tasks.json', csv_filename: str = 'data/demo_tasks.csv'):
     task_data = [task.__dict__ for task in tasks]
-    with open(filename, 'w') as f:
+    
+    # Save to JSON
+    with open(json_filename, 'w') as f:
         json.dump(task_data, f)
+    
+    # Save to CSV
+    with open(csv_filename, 'w', newline='') as f:
+        writer = csv.DictWriter(f, fieldnames=task_data[0].keys())
+        writer.writeheader()
+        writer.writerows(task_data)
 
 # Example usage
 if __name__ == "__main__":
-    tasks = generate_core_tasks()
-    save_tasks_to_json(tasks)
+    tasks = generate_demo_tasks()
+    save_tasks_to_json_and_csv(tasks)

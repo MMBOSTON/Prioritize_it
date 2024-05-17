@@ -21,11 +21,11 @@ except:
 @st.cache_resource
 def getData():
     # Adjust the path to point to the correct directory
-    path = pathlib.Path(__file__).parent.parent / "data/pre-saved-tasks.json"
+    path = pathlib.Path(__file__).parent.parent / "data/sample_tasks.json"
     data = pd.read_json(path)
     print(data.columns)
     data['ratio'] = data['task_value'] / data['task_effort']  # Calculate 'ratio'
-    data['Rank'] = np.ceil(data['task_value'] / data['task_effort'] * data['ratio'])  # Calculate the Rank
+    data['Rank'] = data['ratio'].rank(ascending=False, method='min')  # Calculate the Rank
     data['Rank'] = data['Rank'].astype(int)  # Convert Rank to integer
     return data
 
@@ -36,8 +36,9 @@ data = st.session_state.data
 
 if st.button('Update Rank'):
     data['ratio'] = data['task_value'] / data['task_effort']  # Calculate 'ratio'
-    data['Rank'] = np.ceil(data['task_value'] / data['task_effort'] * data['ratio'])  # Calculate the Rank
+    data['Rank'] = data['ratio'].rank(ascending=False, method='min')  # Calculate the Rank
     data['Rank'] = data['Rank'].astype(int)  # Convert Rank to integer
+    st.session_state.data = data  # Update the session state
 
 gridOptions = {
     "columnTypes": {

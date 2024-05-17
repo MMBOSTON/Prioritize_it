@@ -1,13 +1,21 @@
 import sys
 import os
-#sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
-
 import streamlit as st
+
+# Set the page configuration immediately after Streamlit import (REQUIRED)  
+st.set_page_config(layout='wide')
 
 from src.tasklist import TaskList
 from input_proc.input_proc import InputProc
-from src.sidebar import display_sidebar, handle_form
-from src.instructions import get_instructions  # Import the get_instructions function
+#from src.sidebar import display_sidebar, handle_form
+
+# import src.sidebar_v2_OLD as sidebar
+# from sidebar import display_sidebar, handle_form
+
+from src.sidebar import display_sidebar as display_sidebar
+from src.sidebar import handle_form as handle_form
+
+#from src.instructions import get_instructions  # Import the get_instructions function
 from src.report_generator import ReportGenerator
 
 # Insert the path to the Prioritize_it directory at the beginning of the system path
@@ -17,23 +25,34 @@ sys.path.insert(0, os.path.join(os.environ['USERPROFILE'], 'Documents', 'GitHub'
 st.markdown("<h1 style='text-align: center; color: DarkGray;font-size: 26px;'>★★ !!PRIORITIZE IT!! ★★</h1>", unsafe_allow_html=True)
 st.markdown("<h2 style='text-align: center; color: DarkGray;font-size: 18px;'>A PARETO PILOT APP FOR PROJECT MANAGERS</h2>", unsafe_allow_html=True)
 
-# Initialize session state
-if 'Report' not in st.session_state:
-    st.session_state['Report'] = None
-if 'visualize' not in st.session_state:
-    st.session_state['visualize'] = False
-if 'selected_section' not in st.session_state:
-    st.session_state['selected_section'] = None
+task_list = TaskList()
+
+selected_section = display_sidebar(task_list)
+print(f"LINE 40 in main.py ... selected_section VALUE: {selected_section}, selected_section TYPE: {type(selected_section)}")
+
+
+# # Initialize session state
+# if 'Report' not in st.session_state:
+#     st.session_state['Report'] = None
+# if 'visualize' not in st.session_state:
+#     st.session_state['visualize'] = False
+# if 'selected_section' not in st.session_state:
+#     st.session_state['selected_section'] = None
 
 # Create an instance of TaskList
-task_list = TaskList()
+#task_list = TaskList()
 input_proc = InputProc(task_list)
-selected_section = display_sidebar(task_list)
+#selected_section = display_sidebar(task_list)
+#print(f"LINE 40 in main.py ... selected_section VALUE: {selected_section}, selected_section TYPE: {type(selected_section)}")
 
 # Display sidebar content
 st.session_state['selected_section'] = display_sidebar(task_list) # Capture the returned selected_section
 
-# Call the InputProc function to display the "Spreadsheet Data Analyzer" and "Task Management" sections
+# Display instructions in the sidebar
+#instructions = get_instructions()  # Assuming get_instructions returns a string of instructions
+#st.sidebar.markdown(instructions)
+
+# Call the InputProc function to display the "Spreadsheet Data Analyzer" and "Demo Data Analyzer" sections
 task_list.use_input_proc()
 
 # Initialize task_description at the beginning of your script

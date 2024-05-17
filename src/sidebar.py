@@ -4,7 +4,7 @@ import subprocess
 
 import streamlit as st
 
-from src.instructions import get_instructions
+from src.instructions import instructions
 from .tasklist import TaskList
 
 
@@ -32,7 +32,7 @@ def display_sidebar(tasklist):
 
     if show_instructions:
         # Display the instructions in the sidebar
-        st.sidebar.write(get_instructions())
+        st.sidebar.write(instructions)
 
     if selected_section == "Manual Task Definition":
         with st.expander("Manual Task Definition"):

@@ -1,21 +1,33 @@
 # DONE:
-- Updated PrioritizeIt with TaskList Class name
-- Merged all Class TaskManager functions to TaskList module
-- Changed AgGrid to a new name "Spreadsheet Data Analyzer"
-- Made the AgGrid as the default operation (may put back the check box feature later)
-- Made all AgGrid Table columns adjustable and different width
-- Made the Name/Description cell content viewable "ALL" with mouse pointer
-- Task_value and Task_effort cells editable
-- Automatic Ratio calculation
-- Update Ratio based on the Value/Effort change dynamically
-- Added a Rank column and calculated based on Value/Effort/Ratio
-   ++ Dynamic Rank update is NOT working after any change in Value/Effort
-- Added Cuilitative Effort Curve
-- Merged/layover Pareto vs Burndown curves
-- Task Type Grouping (TODO)
-- Unit for Columns (TODO)
-- Chart by  Group Type or By Task Type
-- 
+- Updated PrioritizeIt with TaskList Class name                                             [OK]
+- Merged all Class TaskManager functions to TaskList module                                 [TODO]
+- Changed AgGrid to a new name "Spreadsheet Data Analyzer"                                  [OK]
+- Changed Core Task Generation to a new name "Demo Data Analyzer"                           [OK]
+- Made the AgGrid as the default operation (may put back the check box feature later)       [TODO]
+- Made all AgGrid Table columns adjustable and different widths                             [OK]
+- Made the Name/Description cell content viewable "ALL" with mouse pointer                  [BROKEN]
+   ++ Worked, now broken
+- Task_value and Task_effort cells editable                                                 [OK]
+- Save updated tasks to JSON and CSV                                                        [OK]
+- Automatic Ratio calculation                                                               [OK]
+- Update Ratio based on the Value/Effort change dynamically                                 [OK]
+- Added a Rank column and calculated based on Value/Effort/Ratio                            [OK]
+   ++ Dynamic Rank update is NOT working after any change in Value/Effort                   [TODO]
+- Added Cuilitative Effort Curve                                                            [OK]
+- Merged/layover Pareto vs Burndown curves                                                  [OK]
+- Reassign Task_id to a reasonable task name "Task-0001"                                    [TODO]
+   ++ Broken Again
+- Task Type Grouping                                                                        [TODO] 
+- Unit for Columns                                                                          [TODO]
+- Chart by  Group Type or By Task Type                                                      [TODO]
+- Moved  "Demo Task Generation" to the sidebar (Broken)                                     [TODO]
+- Manual File Uploader                                                                      [TODO]
+- Open Form Task Input                                                                      [TODO]
+- Have a sidebar with "Instructions" and "Try Demo" to open "Demo Data Analyzer"            [TODO]
+- Add "Generate Report" functions                                                           [TODO]
+- Add Reset functions                                                                       [TODO]
+- Cleaning up unused codes
+- DocString Generation                                                                      [TODO]
 
 Data Entry Methods:
 +   Spreadsheet Data Analyzer
@@ -27,6 +39,21 @@ Move the "Automatic Tasks Generation" (FAKER Pack) to Instruction to use for Dem
 TARGET AUDIENCE:
     MVP 1.0 - individual end user
     MVP 2.0 - integrate with other tools
+
+
+
+Launch App
+Input Tasks (unassigned tasks, blank-separated Name-Description lines, CSV, XLSX) 
+Display Tasks
+Assign Value & Effort (for ratio and ranking)
+	calculate V/E ratio and rank by ratio
+Visualize 
+Save & Use Ranked Priorities (Track, Export )
+
+
+Visual GUI Flow 
+Instructions display
+Data input controls are showing
 
 # Workflow Outline:
 
