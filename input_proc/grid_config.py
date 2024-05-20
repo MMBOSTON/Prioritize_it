@@ -10,6 +10,7 @@ from st_aggrid import AgGrid, JsCode
 from st_aggrid.shared import DataReturnMode, JsCodeEncoder
 
 import numpy as np
+import streamlit as st
 
 importlib.reload(st_aggrid)
 
@@ -18,21 +19,41 @@ try:
 except:
     pass
 
-@st.cache_resource
-def getData():
+#@st.cache
+
+def getData(data_choice=None, uploaded_file=None):
     # Adjust the path to point to the correct directory
-    path = pathlib.Path(__file__).parent.parent / "data/sample_tasks.json"
-    data = pd.read_json(path)
+    path = pathlib.Path(__file__).parent.parent / "data/sample_tasks_ALL.json"
+
+    if data_choice == 'Load from JSON':
+        data = pd.read_json(path)
+    elif data_choice == 'Upload CSV' and uploaded_file is not None:
+        data = pd.read_csv(uploaded_file)
+    else:
+        st.warning("No data loaded.")
+        return None
+
     print(data.columns)
     data['ratio'] = data['task_value'] / data['task_effort']  # Calculate 'ratio'
     data['Rank'] = data['ratio'].rank(ascending=False, method='min')  # Calculate the Rank
     data['Rank'] = data['Rank'].astype(int)  # Convert Rank to integer
     return data
 
-if "data" not in st.session_state:
-    st.session_state.data = getData()
+data_options = ['Load from JSON', 'Upload CSV']
+data_choice = st.selectbox('Choose how to load data:', data_options)
 
-data = st.session_state.data
+uploaded_file = None
+if data_choice == 'Upload CSV':
+    uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
+
+# Add a button to load the data
+if st.button('Load data'):
+    if "data" not in st.session_state or st.session_state.data is None:
+        st.session_state.data = getData(data_choice, uploaded_file)
+
+# Check if data is in session state before accessing it
+if "data" in st.session_state:
+    data = st.session_state.data
 
 if st.button('Update Rank'):
     data['ratio'] = data['task_value'] / data['task_effort']  # Calculate 'ratio'
@@ -59,22 +80,22 @@ gridOptions = {
             "checkboxSelection": True,
             "pinned": "left",
         },
+        # Inside your column definitions
         {
             "field": "name",
             "minWidth": 100,
             "maxWidth": 600,
             "cellStyle": {"fontWeight": "bold", "white-space": "normal"},
-            #"tooltipField": "name",
             "tooltipComponent": JsCode("""
                 function CustomTooltip() {}
                 CustomTooltip.prototype.init = function(params) {
                     this.eGui = document.createElement('div');
                     this.eGui.innerHTML = params.value;
-                };
+                }
                 CustomTooltip.prototype.getGui = function() {
                     return this.eGui;
-                };
-            """),
+                }
+            """)
         },
         {
             "field": "description",
@@ -304,3 +325,18 @@ with tabs[3]:
 
 with tabs[4]:
     st.write(grid1.selected_rows)
+
+
+# Define the display_grid function
+def display_grid(debug_flag):
+    if debug_flag:
+        # Execute the code block you want to run under debug mode
+        # For example, printing debug information or setting specific configurations
+        print("Debug mode is enabled.")
+        # Your debug-specific code here
+    else:
+        # Normal execution path
+        pass
+
+# Optionally, call the function here if you want it to execute automatically when grid_config.py is imported
+# Or, call it from your main application script where you handle the debug_flag from the sidebar

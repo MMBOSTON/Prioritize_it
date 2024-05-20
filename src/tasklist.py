@@ -10,16 +10,18 @@ from input_proc.input_proc import InputProc
 from src.data_manager import DataManager
 from src.report_generator import ReportGenerator
 from src.visualizer import Visualizer
+from src.sidebar import display_sidebar
 
 class TaskList:
-    """Main class for the PrioritizeIt application."""
 
     def __init__(self):
         """Initialize the PrioritizeIt application."""
         self.data_manager = DataManager()
         self.visualizer = Visualizer()
         self.report_generator = ReportGenerator(self.data_manager)
-        self.input_proc = InputProc(self)  # Uncomment this line
+        self.tasks = self.data_manager.load_tasks()  # Load tasks from data manager
+        section = display_sidebar(self.tasks)  # Pass self.tasks as an argument
+        self.input_proc = InputProc(self, section)  # Pass section as an argument
 
     def use_input_proc(self):
         """Use InputProc."""

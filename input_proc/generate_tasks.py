@@ -74,7 +74,45 @@ def save_tasks_to_json_and_csv(tasks: List[TaskCore], json_filename: str = 'data
         writer.writeheader()
         writer.writerows(task_data)
 
-# Example usage
-if __name__ == "__main__":
-    tasks = generate_demo_tasks()
-    save_tasks_to_json_and_csv(tasks)
+# def parse_json_to_txt_csv(json_file, txt_file, csv_file):
+#     """
+#     Parse a JSON file and write the data to a .txt and .csv file.
+#     Args:
+#         json_file: The JSON file to parse.
+#         txt_file: The .txt file to write to.
+#         csv_file: The .csv file to write to.
+#     """
+#     try:
+#         # Load the JSON file
+#         with open(jason_file, 'r') as f:
+#             tasks = json.load(f)
+
+#         # Write to the .txt file
+#         with open(txt_file, 'w') as f:
+#             for task in tasks:
+#                 f.write(f"Task_Name: {task['name']}\n")
+#                 f.write(f"Task Description: {task['description']}\n")
+#                 f.write(f"Task ID: {task['task_id']}\n")
+#                 f.write(f"Task Value: {task['task_value']}\n")
+#                 f.write(f"Task Effort: {task['task_effort']}\n")
+#                 f.write("\n")
+
+#         # Write to the .csv file
+#         with open(csv_file, 'w', newline='') as f:
+#             writer = csv.DictWriter(f, fieldnames=['Task_Name', 'Task Description', 'Task ID', 'Task Value', 'Task Effort'])
+#             writer.writeheader()
+#             for task in tasks:
+#                 writer.writerow({
+#                     'Task_Name': task['name'],
+#                     'Task Description': task['description'],
+#                     'Task ID': task['task_id'],
+#                     'Task Value': task['task_value'],
+#                     'Task Effort': task['task_effort'],
+#                 })
+#     except Exception as e:
+#         print(f"An error occurred while parsing the JSON file: {e}")
+
+# if __name__ == "__main__":
+#     tasks = generate_demo_tasks()
+#     save_tasks_to_json_and_csv(tasks)
+#     parse_json_to_txt_csv('data/pre-saved-tasks.json', 'data/input_tasks.txt', 'data/input_tasks.csv')

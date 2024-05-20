@@ -66,11 +66,11 @@ def display_tasks_with_st_table(tasks):
     # Display the DataFrame as a table
     st.table(task_df)
     
-def InputProc(task_list):
+def InputProc(task_list, section):
     visualizer = Visualizer()
     tasks = []
 
-    with st.expander("Spreadsheet Data Analyzer"):
+    if section == 'Spreadsheet Data Analyzer':
         grid_response = display_tasks_with_aggrid(tasks)
         selected_tasks = grid_response['selected_rows']
 
@@ -106,7 +106,91 @@ def InputProc(task_list):
             else:
                 st.warning("No tasks selected for report generation.")
 
-    with st.expander("Demo Data Analyzer"):
+    # elif section == 'File Upload':
+    #     uploaded_file = st.file_uploader("Choose a file", type=["csv", "txt", "text", "xlsx"])    
+    #     if uploaded_file is not None:
+    #         file_handler = FileHandler(task_list)
+    #         tasks = file_handler.load_tasks_from_file(uploaded_file)
+    #         if tasks is not None:
+    #             st.success("Tasks loaded from file.")
+                
+    #             # Print the tasks
+    #             print(tasks)
+                
+    #             # Display the uploaded tasks
+    #             st.dataframe(tasks)
+        
+    #             # Add a multi-select box for the user to select tasks for visualization
+    #             selected_tasks = st.multiselect('Select tasks for visualization', tasks['Task Name'].tolist())    
+    #     col1, col2, col3 = st.columns(3)
+    
+    #     with col1:
+    #         save_tasks = st.button("Save Updated Tasks", key="save_tasks_file_upload")
+    #         if save_tasks:
+    #             save_updated_tasks_to_file([task.to_dict() for task in tasks])
+    
+    #     with col2:
+    #         visualize_tasks = st.button("Visualize Tasks", key="visualize_tasks_file_upload")
+    
+    #     with col3:
+    #         generate_report = st.button("Generate Report", key="generate_report_file_upload")
+    
+    #     if visualize_tasks:
+    #         if selected_tasks:
+    #             for task in selected_tasks:
+    #                 task.calculate_ratio()
+    #             visualizer.visualize_tasks(selected_tasks)
+    #         else:
+    #             st.warning("No tasks selected for visualization.")    
+
+    #     if generate_report:
+    #         if tasks:
+    #             for task in tasks:
+    #                 task.generate_report()
+    #         else:
+    #             st.warning("No tasks loaded for report generation.")
+
+    elif section == 'Manual Task Analyzer':
+        # Use st.text_area for a larger, multi-line text input field for the description
+        description = st.text_area("Task Description", height=100)
+
+        # Create two columns for the value and effort fields with equal widths
+        col1, col2 = st.columns(2)
+
+        # Place the "Task Value" field in the first column
+        with col1:
+            value = st.number_input("Task Value")
+
+        # Place the "Task Effort" field in the second column
+        with col2:
+            effort = st.number_input("Task Effort")
+
+        # Create three columns for the buttons
+        col3, col4, col5 = st.columns(3)
+
+        # Place the "Add Task" button in the first column
+        with col3:
+            add_task_button = st.button("Add Task")
+
+        # Place the "Remove A Task" button in the second column
+        with col4:
+            remove_task_button = st.button("Remove A Task")
+
+        # Place the "Reset Tasks" button in the third column
+        with col5:
+            reset_tasks_button = st.button("Reset Tasks")
+
+        if add_task_button:
+            task_list.add_task(description, value, effort)
+
+        if remove_task_button:
+            task_list.remove_task(description)
+
+        if reset_tasks_button:
+            # This part is already handled in the display_sidebar function for the sidebar
+            pass
+
+    elif section == 'Demo Data Analyzer':
         col1, col2 = st.columns(2)
     
         with col1:
@@ -143,52 +227,8 @@ def InputProc(task_list):
         else:
             st.warning("No tasks found. Generate some or use sample data.")
                 
-        if st.button("Visualize Tasks"):
+        if st.button("Visualize Demo Tasks"):
             if selected_task_objects:
                 visualizer.visualize_tasks(selected_task_objects)
             else:
                 st.warning("No tasks selected for visualization.")
-
-    with st.expander("File Upload"):
-        uploaded_file = st.file_uploader("Choose a file", type=["csv", "txt", "text", "xlsx"])    
-        if uploaded_file is not None:
-            file_handler = FileHandler(task_list)
-            tasks = file_handler.load_tasks_from_file(uploaded_file)
-            if tasks is not None:
-                st.success("Tasks loaded from file.")
-                
-                # Print the tasks
-                print(tasks)
-                
-                # Display the uploaded tasks
-                st.dataframe(tasks)
-        
-                # Add a multi-select box for the user to select tasks for visualization
-                selected_tasks = st.multiselect('Select tasks for visualization', tasks['Task Name'].tolist())    
-        col1, col2, col3 = st.columns(3)
-    
-        with col1:
-            save_tasks = st.button("Save Updated Tasks", key="save_tasks_file_upload")
-            if save_tasks:
-                save_updated_tasks_to_file([task.to_dict() for task in tasks])
-    
-        with col2:
-            visualize_tasks = st.button("Visualize Tasks", key="visualize_tasks_file_upload")
-    
-        with col3:
-            generate_report = st.button("Generate Report", key="generate_report_file_upload")
-    
-        if visualize_tasks:
-            if selected_tasks:
-                for task in selected_tasks:
-                    task.calculate_ratio()
-                visualizer.visualize_tasks(selected_tasks)
-            else:
-                st.warning("No tasks selected for visualization.")    
-
-        if generate_report:
-            if tasks:
-                for task in tasks:
-                    task.generate_report()
-            else:
-                st.warning("No tasks loaded for report generation.")
