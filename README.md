@@ -1,102 +1,49 @@
-# DONE:
-- Updated PrioritizeIt with TaskList Class name                                             [OK]
-- Merged all Class TaskManager functions to TaskList module                                 [TODO]
-- Changed AgGrid to a new name "Spreadsheet Data Analyzer"                                  [OK]
-- Changed Core Task Generation to a new name "Demo Data Analyzer"                           [OK]
-- Made the AgGrid as the default operation (may put back the check box feature later)       [TODO]
-- Made all AgGrid Table columns adjustable and different widths                             [OK]
-- Made the Name/Description cell content viewable "ALL" with mouse pointer                  [BROKEN]
-   ++ Worked, now broken
-- Task_value and Task_effort cells editable                                                 [OK]
-- Save updated tasks to JSON and CSV                                                        [OK]
-- Automatic Ratio calculation                                                               [OK]
-- Update Ratio based on the Value/Effort change dynamically                                 [OK]
-- Added a Rank column and calculated based on Value/Effort/Ratio                            [OK]
-   ++ Dynamic Rank update is NOT working after any change in Value/Effort                   [TODO]
-- Added Cuilitative Effort Curve                                                            [OK]
-- Merged/layover Pareto vs Burndown curves                                                  [OK]
-- Reassign Task_id to a reasonable task name "Task-0001"                                    [TODO]
-   ++ Broken Again
-- Task Type Grouping                                                                        [TODO] 
-- Unit for Columns                                                                          [TODO]
-- Chart by  Group Type or By Task Type                                                      [TODO]
-- Moved  "Demo Task Generation" to the sidebar (Broken)                                     [TODO]
-- Manual File Uploader                                                                      [TODO]
-- Open Form Task Input                                                                      [TODO]
-- Have a sidebar with "Instructions" and "Try Demo" to open "Demo Data Analyzer"            [TODO]
-- Add "Generate Report" functions                                                           [TODO]
-- Add Reset functions                                                                       [TODO]
-- Cleaning up unused codes
-- DocString Generation                                                                      [TODO]
+# README.md
 
-Data Entry Methods:
-+   Spreadsheet Data Analyzer
-+   File Upload
-+   Manual Task Entry Analyzer
+## Prioritize It! - Task Prioritization Application
 
-Move the "Automatic Tasks Generation" (FAKER Pack) to Instruction to use for Demo purposes only
+### Overview
 
-TARGET AUDIENCE:
-    MVP 1.0 - individual end user
-    MVP 2.0 - integrate with other tools
+Prioritize It! is a Python-based application designed to assist project managers and team leads in making data-driven decisions for task prioritization within their projects. Leveraging the Pareto principle (80/20 rule), this application aims to identify the critical few tasks that deliver the majority of the value to the customer, thereby streamlining the prioritization process, boosting team productivity, and enhancing project communication. It provides a centralized platform for task data entry, analysis, and visualization, helping users prioritize tasks based on their value and effort. The application supports various workflows, including spreadsheet data analysis, manual task entry, and demo data analysis, making it versatile for different project management needs.
 
+### Features
 
+- **Task Management**: Add, view, and remove tasks with ease. Each task includes a description, value (importance), and effort (work required), allowing for a comprehensive overview of project tasks.
+- **Visualization**: Utilize Pareto charts and burndown charts to visualize task prioritization and project progress.
+- **Report Generation**: Generate detailed reports on tasks, including total number, value, effort, and prioritization.
+- **File Conversion**: Convert task data between JSON, TXT, and CSV formats for flexibility in data handling.
+- **Demo Data Generation**: Quickly generate demo tasks for testing or demonstration purposes.
+- **Interactive Grid**: Utilize an interactive grid for task management, offering functionalities like editing, filtering, and sorting.
+- **Customizable Visualizations**: Visualize tasks using custom charts to understand project dynamics better.
 
-Launch App
-Input Tasks (unassigned tasks, blank-separated Name-Description lines, CSV, XLSX) 
-Display Tasks
-Assign Value & Effort (for ratio and ranking)
-	calculate V/E ratio and rank by ratio
-Visualize 
-Save & Use Ranked Priorities (Track, Export )
+### Getting Started
 
+To get started with Prioritize It!, ensure you have Python installed on your system. Clone the repository and navigate to the project directory. Install the required dependencies by running:
 
-Visual GUI Flow 
-Instructions display
-Data input controls are showing
+```bash
+pip install -r requirements.txt
+```
 
-# Workflow Outline:
+### Usage
 
-# PHASE - Start App
-## 01  Start the Streamlit app
-## 02. Read "Instructions"
+1. **Adding a New Task**: Enter task details in the 'Add a new task' section and click 'Add Task'.
+2. **Viewing Tasks**: Tasks are automatically sorted by their value-to-effort ratio, with the highest ratio tasks at the top.
+3. **Generating Reports**: Click the 'Generate Report' button to create a detailed report of your tasks.
+4. **Visualizing Tasks**: Use the 'Visualize Tasks' button to see Pareto and burndown charts.
+5. **File Conversion**: Convert JSON task data to TXT and CSV formats for external use or analysis.
 
-# A) PHASE - Data Input
+### Contributing
 
-## 03. Get Data In 
-    ### 03a. Import Tabular data (CSV, XLSX, SQL? )
-    ### 3b. Import Text data (text ==>, bulleted, lists, structured text (name + description))
-    ### 3c. Manual Data Entry Form
-    ### [MVP 2+] 3c. Online PM System (Jira, Monday.com, Github Projects, Notion, etc.)
-## 04. Validate data entered
-## 05. Cleanup if required
-## 06. Save Clean Data
+Contributions are welcome! Please feel free to submit a pull request or open an issue if you find any bugs or have feature requests.
 
-# B) PHASE - Data Analysis
+### License
 
-## 07a. Assign Task Value & Effort (may already be assigned above)
-## 07b. Assign Tasks to Task Groups (for MANY input tasks ==> (MVP 1.1)
-## 08. Calculate Value-Effort Ratio
-## 09. Rank Priorities (sort) [Ranked by Value-Effort ratio]
+This project is licensed under the MIT License. See the LICENSE file for more details.
 
-# C) PHASE - Data Viz
+### Contact
 
-## 10. Display Results as active visualization ("interactive" ?) 
-## 10b. Show Rank by Tasks, by Tasks Group (2 Interactive selection) 
-## 11. Review & Approve before generating report
-## 12. Generate Report (from ranked data grid and final chart)
+For any queries or suggestions, please contact the project maintainers.
 
-# D) PHASE - Reporting
+---
 
-## 13. Save ALL Final Results (Report, grid data, chart)  DONE  !!!!
-        Save PDF
-        Save to CSV, XLSX, SQL
-## 14. Send to other people, places, things
-
-
-TODO: introduce Task Group concept 
-    source_task_id ==> keep the original task data, 
-    map it to current Pareto Task Group (map "source_task_id" to "PP_Task_Group")
-
-Separate App:
-Simple Tasks Tracker Tool (instead Jira, Taigo, etc....)
+This README provides a high-level overview of the project. For detailed documentation on individual modules and their functionalities, please refer to the documentation within each module's directory.

@@ -12,6 +12,10 @@ from st_aggrid.shared import DataReturnMode, JsCodeEncoder
 import numpy as np
 import streamlit as st
 
+########################################################################################
+# MOHAMMAD --> WHY IS THIS RELOAD FUNCTION CALLED?  
+# .... importlib.reload() is only done under VERY special circumstances. 
+########################################################################################
 importlib.reload(st_aggrid)
 
 try:

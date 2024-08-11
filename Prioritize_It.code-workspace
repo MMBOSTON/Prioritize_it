@@ -1,8 +1,22 @@
 {
-	"folders": [
-		{
-			"path": "."
-		},
-	],
-	"settings": {}
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "python.defaultInterpreterPath": "C:\\ProgramData\\Anaconda3\\envs\\streamlit2\\python.exe",
+        "workbench.editor.enablePreview": false,
+        "terminal.integrated.profiles.windows": {
+            "Command Prompt": {
+                "path": [
+                    "${env:windir}\\System32\\cmd.exe",
+                    "${env:windir}\\SysWOW64\\cmd.exe"
+                ],
+                "args": ["/K", "C:/ProgramData/Anaconda3/Scripts/activate C:/ProgramData/Anaconda3/envs/streamlit2"],
+                "icon": "terminal-cmd"
+            }
+        },
+        "terminal.integrated.defaultProfile.windows": "Command Prompt"
+    }
 }

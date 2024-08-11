@@ -1,7 +1,7 @@
 import json
 import logging
 
-from .task import Task
+from src.task import Task
 
 
 class DataManager:

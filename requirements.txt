@@ -1,0 +1,9 @@
+# requirements.txt
+
+pandas
+docx
+matplotlib
+seaborn
+streamlit
+faker
+st_aggrid

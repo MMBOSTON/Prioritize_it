@@ -1,0 +1,8 @@
+
+This script will iterate over each file in the src directory, comparing it with its counterpart in the src_docd directory. It uses ndiff from difflib to find differences line by line between corresponding files. If differences are found, they're formatted in a way suitable for Markdown rendering and appended to the report string. Finally, the report is saved to Differences_Report.md.
+
+To run this script, ensure you have directories named src and src_docd in the same location as the script, with corresponding files inside them. Adjust src_directory, docd_directory, and report_filename variables as needed based on your actual directory names and desired report file name.
+
+Please note, this script assumes that filenames match exactly between these directories. The compare_files function opens each file, reads its lines, and uses ndiff to find differences. If differences are found, they're formatted in a diff style and appended to the report. The report is then saved to Differences_Report.md. This approach provides a clear, readable format showing additions (+) and deletions (-) between the original and modified files.
+
+This script provides a straightforward comparison and might need adjustments based on the exact structure of your directories and requirements. For example, if your directories contain subdirectories or you need more complex comparisons, you might need to modify the file traversal logic.
