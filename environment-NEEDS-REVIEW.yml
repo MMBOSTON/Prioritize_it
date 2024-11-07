@@ -1,0 +1,12 @@
+name: prioritize-it
+channels:
+  - conda-forge
+dependencies:
+  - python=3.8
+  - pandas=1.3.4
+  - python-docx=0.8.11
+  - matplotlib=3.4.3
+  - seaborn=0.11.2
+  - streamlit=1.0.0
+  - faker=10.0.0
+  - st_aggrid=0.0.1

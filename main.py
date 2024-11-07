@@ -18,6 +18,8 @@ st.markdown("<h2 style='text-align: center; color: DarkGray;font-size: 18px;'>A 
 
 task_list = TaskList()
 
-selected_section = display_sidebar(task_list)
+# Ensure display_sidebar is called only once
+if 'selected_section' not in st.session_state:
+    st.session_state.selected_section = display_sidebar(task_list)
 
 input_proc = InputProc(task_list)

@@ -1,0 +1,23 @@
+Shell Script: grep_search_duplicate_streamlit_button_keys.sh
+Output File: grep_search_results_20240810_134919.txt
+
+Running grep search for: reset_app_button_sidebar
+Results:
+C:\Users\PowerUser\Documents\Github_Repos_RSL\Prioritize_it_MMBOSTON\src/sidebar.py:    if st.sidebar.button('Reset app', key='reset_app_button_sidebar'):
+Binary file C:\Users\PowerUser\Documents\Github_Repos_RSL\Prioritize_it_MMBOSTON\src/__pycache__/sidebar.cpython-312.pyc matches
+
+Running grep search for: show_instructions_sidebar
+Results:
+C:\Users\PowerUser\Documents\Github_Repos_RSL\Prioritize_it_MMBOSTON\src/sidebar.py:    show_instructions = st.sidebar.checkbox('Show Instructions', key='show_instructions_sidebar')
+Binary file C:\Users\PowerUser\Documents\Github_Repos_RSL\Prioritize_it_MMBOSTON\src/__pycache__/sidebar.cpython-312.pyc matches
+
+Running grep search for: file_conversion_sidebar
+Results:
+C:\Users\PowerUser\Documents\Github_Repos_RSL\Prioritize_it_MMBOSTON\src/sidebar.py:    file_conversion = st.sidebar.button("Convert JSON to TXT and CSV", key='file_conversion_sidebar')
+Binary file C:\Users\PowerUser\Documents\Github_Repos_RSL\Prioritize_it_MMBOSTON\src/__pycache__/sidebar.cpython-312.pyc matches
+
+Running grep search for: interactive_debug_sidebar
+Results:
+C:\Users\PowerUser\Documents\Github_Repos_RSL\Prioritize_it_MMBOSTON\src/sidebar.py:    interactive_debug = st.sidebar.checkbox('Interactive Debug', key='interactive_debug_sidebar')
+Binary file C:\Users\PowerUser\Documents\Github_Repos_RSL\Prioritize_it_MMBOSTON\src/__pycache__/sidebar.cpython-312.pyc matches
+
