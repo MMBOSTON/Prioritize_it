@@ -55,7 +55,9 @@ def compare_files(src_dir, docd_dir, report_file):
                         
                         # Append the diff to the report
                         report_md += f"## Differences in {src_file.name}\n\n"
-                        report_md += "```diff\n" report_md += diff report_md += "\n
+                        report_md += "```diff\n" 
+                        report_md += diff 
+                        report_md += "\n"
 
                     else:
                         report_md += f"No differences found in {src_file.name}\n\n"
@@ -71,10 +73,16 @@ def main():
     Main function to execute the comparison and generate the report.
     """
     src_directory = 'src'
-    docd_directory = 'src_docd'
-    report_filename = 'Differences_Report.md'
+    src_docd_directory = 'src_docd'
+    src_report_filename = 'src_Differences_Report.md'
     
-    compare_files(src_directory, docd_directory, report_filename)
+    input_proc_directory = 'src'
+    input_proc_docd_directory = 'src_docd'
+    input_proc_report_filename = 'input_proc_Differences_Report.md'
+
+    #compare_files(src_directory, src_directory, src_report_filename)
+    
+    compare_files(input_proc_directory, input_proc_docd_directory, input_proc_report_filename)
 
 if __name__ == "__main__":
     main()

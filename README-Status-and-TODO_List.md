@@ -1,3 +1,12 @@
+# TODO LIST: 
+
+- Date Created: 2024.08.10
+- Date Updated: 2024.08.08 21 1954h
+
+# WIP, PARTIALLY DONE
+- DONE: Rich updated the "input_proc code" in the "input_proc_code_docd" folder.
+    - TBD: verify that the "input_proc_code_docd" folder was added to main branch.
+
 # DONE:
 - Updated PrioritizeIt with TaskList Class name                                             [OK]
 - Merged all Class TaskManager functions to TaskList module                                 [TODO]
@@ -7,6 +16,7 @@
 - Made all AgGrid Table columns adjustable and different widths                             [OK]
 - Made the Name/Description cell content viewable "ALL" with mouse pointer                  [BROKEN]
    ++ Worked, now broken
+
 - Task_value and Task_effort cells editable                                                 [OK]
 - Save updated tasks to JSON and CSV                                                        [OK]
 - Automatic Ratio calculation                                                               [OK]
